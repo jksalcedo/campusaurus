@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Random Topic Wordle | Class Forum</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #1a1a1b; color: #d7dadc; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        
+        nav { width: 100%; max-width: 1200px; margin-bottom: 20px; display: flex; gap: 20px; }
+        nav a { color: #818384; text-decoration: none; font-size: 14px; }
+
+        .game-container { background: #272729; padding: 30px; border-radius: 10px; border: 1px solid #343536; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+        
+        .topic-header { color: #818384; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+        h1 { margin: 0 0 20px 0; font-size: 28px; }
+
+        .grid { display: grid; grid-template-rows: repeat(6, 1fr); gap: 5px; margin-bottom: 20px; }
+        .row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; }
+        .tile {
+            width: 55px; height: 55px; border: 2px solid #3a3a3c;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 26px; font-weight: bold; text-transform: uppercase;
+            transition: all 0.15s ease;
+        }
+
+        /* COLORS */
+        .tile.correct { background: #538d4e; border-color: #538d4e; color: white; }
+        .tile.present { background: #b59f3b; border-color: #b59f3b; color: white; }
+        .tile.absent { background: #3a3a3c; border-color: #3a3a3c; color: white; }
+        .tile.active { border-color: #818384; transform: scale(1.05); }
+
+        #message { height: 40px; margin-top: 15px; font-weight: bold; font-size: 18px; }
+        .reset-btn { background: #d7dadc; color: #1a1a1b; border: none; padding: 10px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; margin-top: 20px; display: none; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html">← Back to Forum</a>
+    </nav>
+
+    <div class="game-container">
+        <div class="topic-header" id="topic-display">Topic: ???</div>
+        <h1>Daily Wordle</h1>
+        
+        <div class="grid" id="board"></div>
+
+        <div id="message"></div>
+        <button class="reset-btn" id="reset-btn" onclick="location.reload()">Play New Topic</button>
+    </div>
+
+    <script>
+        // RANDOM TOPICS AND WORDS
+        const gameData = [
+            { topic: "Programming", word: "INPUT" },
+            { topic: "Programming", word: "LOGIC" },
+            { topic: "School", word: "STUDY" },
+            { topic: "School", word: "GRADE" },
+            { topic: "Technology", word: "CLOUD" },
+            { topic: "Technology", word: "CYBER" },
+            { topic: "General", word: "FORUM" },
+            { topic: "General", word: "SHARE" }
+        ];
+
+        // Pick a random entry
+        const randomConfig = gameData[Math.floor(Math.random() * gameData.length)];
+        const SOLUTION = randomConfig.word;
+        document.getElementById('topic-display').innerText = "Topic: " + randomConfig.topic;
+
+        let currentGuess = "";
+        let currentRow = 0;
+        let gameOver = false;
+
+        // Initialize Board (6 Tries)
+        const board = document.getElementById('board');
+        for (let i = 0; i < 6; i++) {
+            const rowDiv = document.createElement('div');
+            rowDiv.className = 'row';
+            for (let j = 0; j < 5; j++) {
+                const tile = document.createElement('div');
+                tile.className = 'tile';
+                tile.id = `tile-${i}-${j}`;
+                rowDiv.appendChild(tile);
+            }
+            board.appendChild(rowDiv);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (gameOver) return;
+            if (e.key === 'Enter') {
+                if (currentGuess.length === 5) submitGuess();
+            } else if (e.key === 'Backspace') {
+                currentGuess = currentGuess.slice(0, -1);
+                updateDisplay();
+            } else if (currentGuess.length < 5 && /^[a-zA-Z]$/.test(e.key)) {
+                currentGuess += e.key.toUpperCase();
+                updateDisplay();
+            }
+        });
+
+        function updateDisplay() {
+            for (let i = 0; i < 5; i++) {
+                const tile = document.getElementById(`tile-${currentRow}-${i}`);
+                tile.innerText = currentGuess[i] || "";
+                tile.classList.toggle('active', !!currentGuess[i]);
+            }
+        }
+
+        function submitGuess() {
+            const rowTiles = [];
+            for (let i = 0; i < 5; i++) {
+                rowTiles.push(document.getElementById(`tile-${currentRow}-${i}`));
+            }
+
+            const guessArray = currentGuess.split("");
+            const solutionArray = SOLUTION.split("");
+            const resultMsg = document.getElementById('message');
+
+            // Check letters and apply colors
+            guessArray.forEach((letter, i) => {
+                if (letter === solutionArray[i]) {
+                    rowTiles[i].classList.add('correct');
+                } else if (solutionArray.includes(letter)) {
+                    rowTiles[i].classList.add('present');
+                } else {
+                    rowTiles[i].classList.add('absent');
+                }
+            });
+
+            if (currentGuess === SOLUTION) {
+                resultMsg.innerText = "EXCELLENT! 🎉";
+                resultMsg.style.color = "#538d4e";
+                endGame();
+            } else if (currentRow === 5) {
+                resultMsg.innerText = "GAME OVER. Word was: " + SOLUTION;
+                resultMsg.style.color = "#ff4500";
+                endGame();
+            } else {
+                currentRow++;
+                currentGuess = "";
+            }
+        }
+
+        function endGame() {
+            gameOver = true;
+            document.getElementById('reset-btn').style.display = "inline-block";
+        }
+    </script>
+</body>
+</html>

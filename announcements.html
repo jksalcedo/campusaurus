@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Announcements | Campusaurus</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #1a1a1b; color: #d7dadc; margin: 0; padding: 0; }
+        nav { background: #272729; padding: 10px 20px; display: flex; align-items: center; border-bottom: 1px solid #343536; position: sticky; top: 0; z-index: 100; }
+        nav a { color: #d7dadc; text-decoration: none; margin: 0 10px; font-size: 14px; }
+        
+        .container { max-width: 800px; margin: 20px auto; padding: 0 20px; }
+        .header-box { background: #272729; padding: 20px; border-radius: 5px; border: 1px solid #343536; margin-bottom: 20px; border-left: 5px solid #4bb543; }
+        
+        .post-card { background: #272729; padding: 15px; border-radius: 5px; border: 1px solid #343536; margin-bottom: 15px; }
+        .post-meta { font-size: 12px; color: #818384; margin-bottom: 8px; }
+        .post-title { margin: 0 0 10px 0; font-size: 18px; color: #d7dadc; }
+        .post-content { font-size: 14px; color: #b1b3b5; line-height: 1.5; }
+        .badge { background: #4bb543; color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: bold; text-transform: uppercase; vertical-align: middle; margin-left: 10px; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div style="font-size: 20px; margin-right: 20px;"><b>Campusaurus</b>🦖</div>
+    <a href="index.html">← Back to Feed</a>
+    <a href="profile.html" style="margin-left: auto;">My Profile</a>
+</nav>
+
+<div class="container">
+    <div class="header-box">
+        <h1 style="margin: 0;">📢 Official Announcements</h1>
+        <p style="color: #818384; margin: 5px 0 0 0;">Stay updated with the latest news from the Admins.</p>
+    </div>
+
+    <div class="post-card">
+        <div class="post-meta">Posted by <b>Admin_Dave</b> • 1 day ago <span class="badge">Official</span></div>
+        <h2 class="post-title">Welcome to the Class Forum!</h2>
+        <p class="post-content">We've officially launched the RedditLite platform for our Information Management project. Feel free to explore the Wordle game and the profile settings.</p>
+    </div>
+
+    <div class="post-card">
+        <div class="post-meta">Posted by <b>System</b> • 3 hours ago <span class="badge">Update</span></div>
+        <h2 class="post-title">Scheduled Maintenance: May 10th</h2>
+        <p class="post-content">The live chat feature will be down for 2 hours while we migrate the database to Supabase. Thanks for your patience!</p>
+    </div>
+</div>
+
+</body>
+</html>

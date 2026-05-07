@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile & Join | Class Forum</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #1a1a1b; color: #d7dadc; margin: 0; padding: 20px; }
+        .container { max-width: 500px; margin: 40px auto; }
+        
+        .auth-box { background: #272729; padding: 30px; border-radius: 8px; border: 1px solid #343536; }
+        .auth-box h2 { margin-top: 0; font-size: 22px; text-align: center; }
+        .auth-box p { font-size: 14px; color: #818384; text-align: center; margin-bottom: 25px; }
+        
+        label { display: block; font-size: 11px; font-weight: bold; color: #818384; margin-bottom: 5px; text-transform: uppercase; }
+        input, select { width: 100%; background: #1a1a1b; border: 1px solid #343536; color: white; padding: 10px; margin-bottom: 15px; border-radius: 4px; box-sizing: border-box; }
+        
+        /* Focus state to make it feel premium */
+        input:focus, select:focus { outline: none; border-color: #d7dadc; }
+
+        .btn-join { background: #d7dadc; color: #1a1a1b; border: none; padding: 12px; width: 100%; font-weight: bold; border-radius: 20px; cursor: pointer; }
+        .btn-join:hover { background: #ffffff; }
+
+        #user-profile { display: none; background: #272729; padding: 20px; border-radius: 8px; border: 1px solid #343536; }
+        .user-badge { background: #3d3d3f; padding: 5px 10px; border-radius: 4px; font-size: 12px; margin-right: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="index.html" style="color: #818384; text-decoration: none; font-size: 14px;">← Back to Forum</a>
+    <br><br>
+
+    <div id="auth-section" class="auth-box">
+        <h2>Join the Conversation</h2>
+        <p>Verify your student email to access live chat and track your Wordle wins.</p>
+        
+        <form id="signup-form">
+            <label>Username (Unique)</label>
+            <input type="text" id="username" placeholder="u/cool_student_01" required>
+
+            <label>Student Email</label>
+            <input type="email" id="email" placeholder="name@student.edu" required>
+
+            <label>Password</label>
+            <input type="password" id="password" required>
+
+            <div style="display: flex; gap: 10px;">
+                <div style="flex: 1;">
+                    <label>Age</label>
+                    <input type="number" id="age" min="16" required>
+                </div>
+                <div style="flex: 1;">
+                    <label>Gender</label>
+                    <select id="gender">
+                        <option>Male</option>
+                        <option>Female</option>
+                        <option>Prefer not to say</option>
+                    </select>
+                </div>
+            </div>
+
+            <label>Department</label>
+            <select id="dept">
+                <option>CEA</option>
+                <option>CCS</option>
+                <option>CHS</option>
+                <option>CTHBM</option>
+                <option>CTDE</option>
+                <option>CAS</option>
+            </select>
+
+            <label>Year Level</label>
+            <select id="year">
+                <option>1st Year</option>
+                <option>2nd Year</option>
+                <option>3rd Year</option>
+                <option>4th Year</option>
+            </select>
+
+            <button type="submit" class="btn-join">Verify & Create Account</button>
+        </form>
+    </div>
+
+    <div id="user-profile">
+        <h1 id="display-username" style="margin-bottom: 0;">u/username</h1>
+        <p id="display-email" style="color: #818384; margin-top: 5px; font-size: 14px;">email@school.edu</p>
+        
+        <div style="margin-bottom: 20px;">
+            <span class="user-badge" id="display-dept">CCS</span>
+            <span class="user-badge" id="display-year">3rd Year</span>
+        </div>
+        
+        <hr style="border: 0; border-top: 1px solid #343536;">
+        <h3>Your Activity</h3>
+        <p style="color: #818384; font-size: 14px;">You haven't posted anything yet.</p>
+        
+        <button onclick="logout()" style="background: none; border: 1px solid #ff4500; color: #ff4500; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 12px;">Logout</button>
+    </div>
+</div>
+
+<script>
+    document.getElementById('signup-form').onsubmit = function(e) {
+        e.preventDefault();
+        
+        // Grab values to show they work
+        const user = document.getElementById('username').value;
+        const email = document.getElementById('email').value;
+        const dept = document.getElementById('dept').value;
+        const year = document.getElementById('year').value;
+
+        alert("Verification email sent to " + email + "!");
+
+        // Update the profile display
+        document.getElementById('display-username').innerText = "u/" + user;
+        document.getElementById('display-email').innerText = email;
+        document.getElementById('display-dept').innerText = dept;
+        document.getElementById('display-year').innerText = year;
+
+        // Swap views
+        document.getElementById('auth-section').style.display = 'none';
+        document.getElementById('user-profile').style.display = 'block';
+    };
+
+    function logout() {
+        document.getElementById('auth-section').style.display = 'block';
+        document.getElementById('user-profile').style.display = 'none';
+    }
+</script>
+
+</body>
+</html>
