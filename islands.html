@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The Archipelago | RedditLite</title>
+    <style>
+        /* This section is what makes it look good */
+        body { font-family: 'Segoe UI', sans-serif; background: #1a1a1b; color: #d7dadc; margin: 0; padding: 0; }
+        
+        nav { background: #272729; padding: 10px 20px; display: flex; align-items: center; border-bottom: 1px solid #343536; }
+        nav a { color: #d7dadc; text-decoration: none; margin: 0 15px; font-size: 14px; }
+
+        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+        
+        h1 { text-align: center; margin-bottom: 30px; font-size: 32px; }
+
+        /* THE GRID SYSTEM */
+        .island-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 20px; 
+        }
+
+        .island-card { 
+            background: #272729; 
+            border: 1px solid #343536; 
+            border-radius: 10px; 
+            overflow: hidden; 
+            text-decoration: none; 
+            color: inherit; 
+            transition: 0.3s;
+        }
+
+        .island-card:hover { transform: translateY(-5px); border-color: #818384; }
+
+        .island-banner { 
+            height: 100px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 40px; 
+        }
+
+        .island-info { padding: 20px; }
+        .island-name { font-size: 20px; font-weight: bold; margin-bottom: 5px; }
+        .island-desc { color: #818384; font-size: 13px; line-height: 1.4; }
+        .nest-count { margin-top: 15px; font-size: 11px; font-weight: bold; color: #4bb543; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div style="font-size: 20px; margin-right: 20px;"><b>Campusaurus</b>🦖</div>
+    <a href="index.html">Feed</a>
+    <a href="islands.html">Islands</a>
+    <a href="profile.html" style="margin-left: auto;">My Profile</a>
+</nav>
+
+<div class="container">
+    <h1>Explore the Islands</h1>
+    
+    <div class="island-grid">
+        <a href="nest.html" class="island-card">
+            <div class="island-banner" style="background: #ddda18;">💻</div>
+            <div class="island-info">
+                <div class="island-name">CCS Island</div>
+                <div class="island-desc">The Cyber Jungle. Home of the Tech-saurs.</div>
+                <div class="nest-count">24 Nests</div>
+            </div>
+        </a>
+
+        <a href="nest.html" class="island-card">
+            <div class="island-banner" style="background: #4d261b;">🏗️</div>
+            <div class="island-info">
+                <div class="island-name">CEA Island</div>
+                <div class="island-desc">The Iron Peak. For builders and architects.</div>
+                <div class="nest-count">18 Nests</div>
+            </div>
+        </a>
+
+        <a href="nest.html" class="island-card">
+            <div class="island-banner" style="background: #1b3b4d;">🏥</div>
+            <div class="island-info">
+                <div class="island-name">CHS Island</div>
+                <div class="island-desc">The Healing Springs. For nursing and health heroes.</div>
+                <div class="nest-count">15 Nests</div>
+            </div>
+        </a>
+
+        <a href="nest.html" class="island-card">
+            <div class="island-banner" style="background: #4d431b;">🏨</div>
+            <div class="island-info">
+                <div class="island-name">CTHBM Island</div>
+                <div class="island-desc">The Golden Sands. Hospitality and business management.</div>
+                <div class="nest-count">21 Nests</div>
+            </div>
+        </a>
+
+        <a href="nest.html" class="island-card">
+            <div class="island-banner" style="background: #3e1b4d;">📚</div>
+            <div class="island-info">
+                <div class="island-name">CTDE Island</div>
+                <div class="island-desc">The Wisdom Grove. Shaping the minds of tomorrow.</div>
+                <div class="nest-count">10 Nests</div>
+            </div>
+        </a>
+
+        <a href="nest.html" class="island-card">
+            <div class="island-banner" style="background: #4d1b2c;">🎨</div>
+            <div class="island-info">
+                <div class="island-name">CAS Island</div>
+                <div class="island-desc">The Creative Crater. Exploring arts and sciences.</div>
+                <div class="nest-count">32 Nests</div>
+            </div>
+        </a>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Post | Forum</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #1a1a1b; color: #d7dadc; margin: 0; padding: 20px; }
+        .form-container { max-width: 600px; margin: 50px auto; background: #272729; padding: 20px; border-radius: 5px; border: 1px solid #343536; }
+        h1 { font-size: 18px; border-bottom: 1px solid #343536; padding-bottom: 10px; margin-bottom: 20px; }
+        
+        label { display: block; margin-bottom: 5px; font-size: 12px; color: #818384; font-weight: bold; }
+        input, textarea, select { width: 100%; background: #1a1a1b; border: 1px solid #343536; color: white; padding: 10px; margin-bottom: 20px; border-radius: 4px; box-sizing: border-box; }
+        
+        .btn-post { background: #d7dadc; color: #1a1a1b; border: none; padding: 10px 20px; font-weight: bold; border-radius: 20px; cursor: pointer; float: right; }
+        .btn-post:hover { background: #ffffff; }
+        .back-link { color: #818384; text-decoration: none; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<a href="index.html" class="back-link">← Back to Feed</a>
+
+<div class="form-container">
+    <h1>Create a post</h1>
+    
+    <label>CHOOSE A CATEGORY</label>
+    <select>
+        <option>#General</option>
+        <option>#Announcements</option>
+        <option>#HomeworkHelp</option>
+    </select>
+
+    <label>TITLE</label>
+    <input type="text" placeholder="Title of your post">
+
+    <label>CONTENT</label>
+    <textarea rows="8" placeholder="Text (optional)"></textarea>
+
+    <button class="btn-post">POST</button>
+    <div style="clear: both;"></div>
+</div>
+
+</body>
+</html>
