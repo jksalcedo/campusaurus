@@ -16,6 +16,16 @@
         .post-title { margin: 0 0 10px 0; font-size: 18px; color: #d7dadc; }
         .post-content { font-size: 14px; color: #b1b3b5; line-height: 1.5; }
         .badge { background: #4bb543; color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: bold; text-transform: uppercase; vertical-align: middle; margin-left: 10px; }
+
+        /* Empty / loading */
+        .state {
+            background: #272729;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px dashed #343536;
+            color: #818384;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -32,18 +42,65 @@
         <p style="color: #818384; margin: 5px 0 0 0;">Stay updated with the latest news from the Admins.</p>
     </div>
 
-    <div class="post-card">
-        <div class="post-meta">Posted by <b>Admin_Dave</b> • 1 day ago <span class="badge">Official</span></div>
-        <h2 class="post-title">Welcome to the Class Forum!</h2>
-        <p class="post-content">We've officially launched the RedditLite platform for our Information Management project. Feel free to explore the Wordle game and the profile settings.</p>
-    </div>
-
-    <div class="post-card">
-        <div class="post-meta">Posted by <b>System</b> • 3 hours ago <span class="badge">Update</span></div>
-        <h2 class="post-title">Scheduled Maintenance: May 10th</h2>
-        <p class="post-content">The live chat feature will be down for 2 hours while we migrate the database to Supabase. Thanks for your patience!</p>
-    </div>
+    <div id="announcements" class="state">Loading announcements…</div>
 </div>
+
+<script type="module">
+    import { CampusaurusAPI } from './api.js';
+
+    function escapeHtml(str) {
+        return String(str)
+            .replaceAll('&', '&amp;')
+            .replaceAll('<', '&lt;')
+            .replaceAll('>', '&gt;')
+            .replaceAll('"', '&quot;')
+            .replaceAll("'", '&#039;');
+    }
+
+    function renderEmpty(el) {
+        el.className = 'state';
+        el.textContent = 'No announcements yet.';
+    }
+
+    function renderAnnouncements(el, announcements) {
+        if (!Array.isArray(announcements) || announcements.length === 0) {
+            renderEmpty(el);
+            return;
+        }
+
+        el.className = '';
+        el.innerHTML = announcements.map(a => {
+            const author = escapeHtml(a.author ?? 'Admin');
+            const title = escapeHtml(a.title ?? 'Announcement');
+            const content = escapeHtml(a.content ?? '');
+            const createdAt = escapeHtml(a.createdAt ?? '');
+            const badge = escapeHtml(a.badge ?? 'Official');
+
+            return `
+                <div class="post-card">
+                    <div class="post-meta">Posted by <b>${author}</b>${createdAt ? ` • ${createdAt}` : ''} <span class="badge">${badge}</span></div>
+                    <h2 class="post-title">${title}</h2>
+                    <p class="post-content">${content}</p>
+                </div>
+            `;
+        }).join('');
+    }
+
+    async function loadAnnouncements() {
+        const el = document.getElementById('announcements');
+
+        try {
+            const data = await CampusaurusAPI.announcements.list();
+            renderAnnouncements(el, data.announcements);
+        } catch (err) {
+            el.className = 'state';
+            el.textContent = 'Could not load announcements.';
+            console.error(err);
+        }
+    }
+
+    loadAnnouncements();
+</script>
 
 </body>
 </html>
