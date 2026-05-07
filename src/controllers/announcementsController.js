@@ -10,8 +10,8 @@ import {
     return typeof v === "string" && v.trim() ? v.trim() : "";
     }
 
-    export function list(_req, res) {
-    res.json({ announcements: listAnnouncements() });
+    export async function list(_req, res) {
+        res.json({ announcements: await listAnnouncements() });
     }
 
     export function create(req, res) {
