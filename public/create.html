@@ -2,43 +2,261 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Create Post | Forum</title>
+    <title>Log Discovery | Campusaurus</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #1a1a1b; color: #d7dadc; margin: 0; padding: 20px; }
-        .form-container { max-width: 600px; margin: 50px auto; background: #272729; padding: 20px; border-radius: 5px; border: 1px solid #343536; }
-        h1 { font-size: 18px; border-bottom: 1px solid #343536; padding-bottom: 10px; margin-bottom: 20px; }
+        /* =========================================
+           1. GLOBAL DESIGN SYSTEM (CSS Variables)
+           ========================================= */
+        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&display=swap');
+
+        :root {
+            /* Typography */
+            --font-heading: 'Oswald', sans-serif;
+            --font-body: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --text-micro: 11px;
+            --text-small: 13px;
+            --text-base: 15px;
+            --text-large: 18px;
+            --text-h2: 24px;
+
+            /* Jurassic Color Palette */
+            --bg-deep-jungle: #161c16;
+            --bg-foliage: #222d22;
+            --border-moss: #3a4a3a;
+            --text-light: #e0e6dd;
+            --text-muted: #a4b3a4;
+            --amber-accent: #e5a93d;
+            --amber-hover: #ffbe4d;
+        }
+
+        /* =========================================
+           2. BASE STYLES & LAYOUT
+           ========================================= */
+        body { 
+            font-family: var(--font-body); 
+            font-size: var(--text-base);
+            background: var(--bg-deep-jungle); 
+            color: var(--text-light); 
+            margin: 0; 
+            display: flex; 
+            flex-direction: column; 
+            height: 100vh; 
+            line-height: 1.5;
+        }
+
+        h1, h2, h3, .logo-text {
+            font-family: var(--font-heading);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 0;
+        }
+
+        /* NAVBAR */
+        nav { 
+            background: var(--bg-foliage); 
+            padding: 10px 20px; 
+            display: flex; 
+            gap: 20px; 
+            align-items: center; 
+            border-bottom: 1px solid var(--border-moss); 
+        }
+        nav a { color: var(--text-muted); text-decoration: none; font-weight: bold; transition: color 0.2s; font-size: var(--text-base); }
+        nav a:hover { color: var(--amber-accent); }
+        .logo-text { font-size: var(--text-h2); color: var(--amber-accent); margin-right: 20px; }
+
+        /* MAIN CONTAINER */
+        .container { 
+            padding: 20px; 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            width: 100%; 
+            box-sizing: border-box;
+        }
+
+        /* =========================================
+           3. FORM STYLES
+           ========================================= */
+        .form-container { 
+            max-width: 600px; 
+            margin: 30px auto; 
+            background: var(--bg-foliage); 
+            padding: 30px; 
+            border-radius: 8px; 
+            border: 1px solid var(--border-moss); 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
         
-        label { display: block; margin-bottom: 5px; font-size: 12px; color: #818384; font-weight: bold; }
-        input, textarea, select { width: 100%; background: #1a1a1b; border: 1px solid #343536; color: white; padding: 10px; margin-bottom: 20px; border-radius: 4px; box-sizing: border-box; }
+        h1 { 
+            font-size: var(--text-h2); 
+            border-bottom: 2px solid var(--amber-accent); 
+            padding-bottom: 10px; 
+            margin-bottom: 25px; 
+            color: var(--amber-accent); 
+        }
         
-        .btn-post { background: #d7dadc; color: #1a1a1b; border: none; padding: 10px 20px; font-weight: bold; border-radius: 20px; cursor: pointer; float: right; }
-        .btn-post:hover { background: #ffffff; }
-        .back-link { color: #818384; text-decoration: none; font-size: 14px; }
+        label { 
+            display: block; 
+            margin-bottom: 8px; 
+            font-size: var(--text-small); 
+            color: var(--text-muted); 
+            font-weight: bold; 
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        input, textarea, select { 
+            width: 100%; 
+            background: var(--bg-deep-jungle); 
+            border: 1px solid var(--border-moss); 
+            color: var(--text-light); 
+            font-size: var(--text-base);
+            padding: 12px; 
+            margin-bottom: 25px; 
+            border-radius: 4px; 
+            box-sizing: border-box; 
+            font-family: inherit;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--amber-accent);
+            box-shadow: 0 0 5px rgba(229, 169, 61, 0.3);
+        }
+        
+        .btn-post { 
+            background: var(--amber-accent); 
+            color: var(--bg-deep-jungle); 
+            border: none; 
+            padding: 12px 24px; 
+            font-weight: bold; 
+            font-size: var(--text-base);
+            font-family: var(--font-heading);
+            border-radius: 4px; 
+            cursor: pointer; 
+            float: right; 
+            transition: background 0.2s, transform 0.1s;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-post:hover { 
+            background: var(--amber-hover); 
+            transform: translateY(-2px);
+        }
+
+        .btn-post:disabled {
+            background: var(--text-muted);
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .back-link { 
+            color: var(--amber-accent); 
+            text-decoration: none; 
+            font-size: var(--text-base); 
+            display: inline-block;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .back-link:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
 
-<a href="index.html" class="back-link">← Back to Feed</a>
-
-<div class="form-container">
-    <h1>Create a post</h1>
+<<form id="create-post-form">
     
-    <label>CHOOSE A CATEGORY</label>
-    <select>
-        <option>#General</option>
-        <option>#Announcements</option>
-        <option>#HomeworkHelp</option>
+    <label for="category">EXCAVATION ZONE (SCOPE)</label>
+    <select id="category" required>
+        <option value="world">🌍 Pangaea (World - All CSPC)</option>
+        <option value="island">🏝️ Island (Department Level)</option>
+        <option value="nest">🪹 Nest (Class/Community Level)</option>
+        <option value="hunt">🍖 The Hunt (Looking For...)</option>
+        <option value="announcement">📢 Amber Alert (Announcement)</option>
     </select>
 
-    <label>TITLE</label>
-    <input type="text" placeholder="Title of your post">
+    <div id="specific-zone-container" style="display: none;">
+        <label for="specificZone" id="specificZoneLabel">SPECIFIC ZONE NAME</label>
+        <input type="text" id="specificZone" placeholder="e.g., CCS Island or n/ProjectDino">
+    </div>
 
-    <label>CONTENT</label>
-    <textarea rows="8" placeholder="Text (optional)"></textarea>
+    <label for="title">SPECIMEN LOG (TITLE)</label>
+    <input type="text" id="title" placeholder="What did you unearth today?" required>
 
-    <button class="btn-post">POST</button>
+    <label for="content">FIELD NOTES (CONTENT)</label>
+    <textarea id="content" rows="8" placeholder="Detail your findings... (optional)"></textarea>
+
+    <button type="submit" class="btn-post" id="submit-btn">PUBLISH RECORD</button>
     <div style="clear: both;"></div>
-</div>
+    
+</form>
 
-</body>
-</html>
+<script type="module">
+    import { CampusaurusAPI } from './api.js';
+
+    // Show/Hide the specific zone input based on dropdown selection
+    const categorySelect = document.getElementById('category');
+    const specificZoneContainer = document.getElementById('specific-zone-container');
+    const specificZoneLabel = document.getElementById('specificZoneLabel');
+
+    categorySelect.addEventListener('change', (e) => {
+        const val = e.target.value;
+        if (val === 'island') {
+            specificZoneContainer.style.display = 'block';
+            specificZoneLabel.innerText = "WHICH ISLAND?";
+        } else if (val === 'nest') {
+            specificZoneContainer.style.display = 'block';
+            specificZoneLabel.innerText = "WHICH NEST?";
+        } else {
+            specificZoneContainer.style.display = 'none';
+        }
+    });
+
+    // Handle Form Submission
+    document.getElementById('create-post-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const submitBtn = document.getElementById('submit-btn');
+        submitBtn.innerText = "EXCAVATING...";
+        submitBtn.disabled = true;
+
+        let categoryId = document.getElementById('category').value;
+        const specificZone = document.getElementById('specificZone').value;
+        const title = document.getElementById('title').value;
+        const content = document.getElementById('content').value;
+
+        // If they specified an island or nest, append it to the category string
+        if ((categoryId === 'island' || categoryId === 'nest') && specificZone) {
+            categoryId = `${categoryId}:${specificZone}`;
+        }
+
+        try {
+            // LOGIC SPLIT: Is it an announcement or a regular post?
+            if (categoryId === 'announcement') {
+                // Note: Your api.js expects 'body' instead of 'content' for announcements
+                await CampusaurusAPI.announcements.create({
+                    title: title,
+                    body: content 
+                });
+                alert("Amber Alert Broadcasted Successfully!");
+                window.location.href = "announcements.html"; 
+            } else {
+                // Standard Post
+                await CampusaurusAPI.posts.create({
+                    title: title,
+                    content: content,
+                    categoryId: categoryId
+                });
+                alert("Discovery logged successfully!");
+                window.location.href = "index.html"; 
+            }
+
+        } catch (error) {
+            console.error(error);
+            alert("Failed to log discovery. System error: " + error.message);
+        } finally {
+            submitBtn.innerText = "PUBLISH RECORD";
+            submitBtn.disabled = false;
+        }
+    });
+</script>
