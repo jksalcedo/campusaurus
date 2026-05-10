@@ -1,53 +1,85 @@
-// src/controllers/postController.js
-const supabase = require('../services/supabaseClient');
+import {
+    listPosts,
+    createPost,
+    getPost,
+    updatePost,
+    deletePost
+} from "../services/postsStore.js";
 
-exports.createPost = async (req, res) => {
-    const { categoryId, title, content } = req.body;
+function asNonEmptyString(v) {
+    return typeof v === "string" && v.trim() ? v.trim() : "";
+}
+
+export async function list(_req, res) {
+    try {
+        const posts = await listPosts();
+        res.json({ posts: posts });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+export async function create(req, res) {
+    const categoryId = asNonEmptyString(req.body?.categoryId);
+    const title = asNonEmptyString(req.body?.title);
+    const content = asNonEmptyString(req.body?.content);
 
     if (!categoryId || !title) {
-        return res.status(400).json({ error: 'Missing categoryId or title' });
+        return res.status(400).json({ error: "categoryId and title are required" });
     }
 
-    const { data, error } = await supabase
-        .from('posts')
-        .insert([{ 
-            category_id: categoryId, 
-            title: title, 
-            content: content, 
-            author_id: 'Anon' // Hardcoded for now
-        }])
-        .select();
+    try {
+        const item = await createPost({ categoryId, title, content });
+        return res.status(201).json(item);
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+}
 
-    if (error) {
-        console.error("Supabase Error:", error);
-        return res.status(500).json({ error: 'Database error while excavating.' });
+export async function get(req, res) {
+    try {
+        const item = await getPost(req.params.id);
+        if (!item) return res.status(404).json({ error: "not found" });
+        return res.json(item);
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+}
+
+export async function update(req, res) {
+    const patch = {};
+
+    if (req.body?.categoryId !== undefined) {
+        const categoryId = asNonEmptyString(req.body.categoryId);
+        if (!categoryId) return res.status(400).json({ error: "categoryId cannot be empty" });
+        patch.categoryId = categoryId;
     }
 
-    res.status(201).json({ message: 'Discovery logged successfully', post: data[0] });
-};
-
-exports.getPosts = async (req, res) => {
-    const { data, error } = await supabase
-        .from('posts')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-    if (error) {
-        console.error("Supabase Error:", error);
-        return res.status(500).json({ error: 'Failed to retrieve records.' });
+    if (req.body?.title !== undefined) {
+        const title = asNonEmptyString(req.body.title);
+        if (!title) return res.status(400).json({ error: "title cannot be empty" });
+        patch.title = title;
     }
 
-    // Convert from DB snake_case to frontend camelCase
-    const formattedPosts = data.map(post => ({
-        id: post.id,
-        categoryId: post.category_id,
-        title: post.title,
-        content: post.content,
-        authorId: post.author_id,
-        createdAt: post.created_at,
-        likes: post.likes,
-        comments: post.comments
-    }));
+    if (req.body?.content !== undefined) {
+        patch.content = asNonEmptyString(req.body.content);
+    }
 
-    res.status(200).json({ posts: formattedPosts });
-};
+    try {
+        const updated = await updatePost(req.params.id, patch);
+        if (!updated) return res.status(404).json({ error: "not found" });
+        return res.json(updated);
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+}
+
+export async function remove(req, res) {
+    try {
+        const ok = await deletePost(req.params.id);
+        if (!ok) return res.status(404).json({ error: "not found" });
+        return res.status(204).send();
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+}
