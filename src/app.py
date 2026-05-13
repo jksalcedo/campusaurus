@@ -17,14 +17,15 @@ from .posts_store import (
 )
 from .database import init_db
 
-app = Flask(__name__)
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+public_path = os.path.join(project_root, "public")
+
+app = Flask(__name__, static_folder=public_path, static_url_path="")
+print(f"!!! FLASK STATIC FOLDER IS: {public_path} !!!")
 CORS(app)
 
 # Initialize database
 init_db(app)
-
-app = Flask(__name__)
-CORS(app)
 
 def as_non_empty_string(v):
     return v.strip() if isinstance(v, str) and v.strip() else ""
@@ -32,6 +33,14 @@ def as_non_empty_string(v):
 @app.route("/api/health", methods=["GET"])
 def health():
     return jsonify({"ok": True})
+
+@app.route("/")
+def index():
+    return app.send_static_file("index.html")
+
+@app.errorhandler(404)
+def not_found(error):
+    return app.send_static_file("index.html")
 
 # Announcements routes
 @app.route("/api/announcements", methods=["GET"])
