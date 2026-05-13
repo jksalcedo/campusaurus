@@ -38,27 +38,26 @@ def health():
 def index():
     return app.send_static_file("index/index.html")
 
-@app.route("/<path:path>/")
-def serve_dir_index(path):
-    # Try to serve index.html from the directory
+@app.route("/<path:path>")
+def serve_static_or_index(path):
+    # If the path has a file extension, serve it as a static file
+    if "." in path.split("/")[-1]:
+        try:
+            return app.send_static_file(path)
+        except:
+            return app.send_static_file("index/index.html"), 404
+    
+    # Otherwise, try to serve index.html from that directory
+    if path.endswith('/'):
+        path = path.rstrip('/')
     index_path = os.path.join(path, "index.html")
-    return app.send_static_file(index_path)
+    try:
+        return app.send_static_file(index_path)
+    except:
+        return app.send_static_file("index/index.html"), 404
 
 @app.errorhandler(404)
 def not_found(error):
-    # If the path exists as a static file, it's already served by Flask's static handler.
-    # If we are here, it wasn't found. We check if it's a directory without a trailing slash.
-    path = request.path.strip("/")
-    if path:
-        index_path = os.path.join(path, "index.html")
-        try:
-            # Check if this file exists in the static folder
-            full_path = os.path.join(app.static_folder, index_path)
-            if os.path.isfile(full_path):
-                return app.send_static_file(index_path)
-        except:
-            pass
-    
     return app.send_static_file("index/index.html")
 
 # Announcements routes
