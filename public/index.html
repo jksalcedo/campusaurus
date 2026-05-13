@@ -4,53 +4,207 @@
     <meta charset="UTF-8">
     <title>Campusaurus</title>
     <style>
-        /* BASIC STYLING - VANILLA CSS */
-        body { font-family: 'Segoe UI', sans-serif; background: #1a1a1b; color: #d7dadc; margin: 0; display: flex; flex-direction: column; height: 100vh; }
-        
+        :root {
+            --bg-deep-jungle: #161c16;
+            --bg-foliage: #222d22;
+            --bg-card: #2a362a;
+            --border-moss: #3a4a3a;
+            --text-light: #e0e6dd;
+            --text-muted: #a4b3a4;
+            --amber-accent: #e5a93d;
+            --amber-hover: #ffbe4d;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: var(--bg-deep-jungle);
+            color: var(--text-light);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
         /* NAVBAR */
-        nav { background: #272729; padding: 10px 20px; display: flex; gap: 20px; align-items: center; border-bottom: 1px solid #343536; }
-        nav a { color: #d7dadc; text-decoration: none; font-weight: bold; font-size: 14px; }
-        nav a:hover { color: #ffffff; }
-        .create-btn { background: #d7dadc; color: #1a1a1b; padding: 5px 15px; border-radius: 20px; }
+        nav {
+            background: var(--bg-foliage);
+            padding: 12px 24px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            border-bottom: 1px solid var(--border-moss);
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            transition: color 0.2s ease;
+        }
+
+        nav a:hover {
+            color: var(--amber-accent);
+        }
+
+        .create-btn {
+            background: var(--amber-accent);
+            color: var(--bg-deep-jungle);
+            padding: 7px 18px;
+            border-radius: 20px;
+        }
+
+        .create-btn:hover {
+            background: var(--amber-hover);
+        }
 
         /* MAIN LAYOUT */
-        .container { display: grid; grid-template-columns: 1fr 300px; gap: 20px; padding: 20px; max-width: 1200px; margin: 0 auto; width: 100%; }
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
 
         /* FEED SECTION */
-        .feed { display: flex; flex-direction: column; gap: 15px; }
-        .post-card { background: #272729; border: 1px solid #343536; border-radius: 5px; padding: 15px; cursor: pointer; }
-        .post-card:hover { border-color: #818384; }
-        .post-meta { font-size: 12px; color: #818384; margin-bottom: 8px; }
-        .post-title { font-size: 18px; margin: 0 0 10px 0; }
-        .post-content { font-size: 14px; color: #b1b3b5; line-height: 1.5; }
-        .post-stats { margin-top: 15px; font-size: 13px; font-weight: bold; display: flex; gap: 15px; }
+        .feed {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .post-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-moss);
+            border-radius: 5px;
+            padding: 18px;
+            cursor: pointer;
+        }
+
+        .post-card:hover {
+            border-color: var(--amber-accent);
+        }
+
+        .post-meta {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .post-title {
+            font-size: 18px;
+            margin: 0 0 10px 0;
+        }
+
+        .post-content {
+            font-size: 14px;
+            color: #cfd7cc;
+            line-height: 1.6;
+        }
+
+        .post-stats {
+            margin-top: 15px;
+            font-size: 13px;
+            font-weight: bold;
+            display: flex;
+            gap: 15px;
+        }
 
         /* SIDEBAR (Chat & Game) */
-        .sidebar { display: flex; flex-direction: column; gap: 20px; }
-        .side-box { background: #272729; border: 1px solid #343536; border-radius: 5px; padding: 15px; }
-        .side-title { font-size: 14px; font-weight: bold; color: #818384; text-transform: uppercase; margin-bottom: 15px; }
-        
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .side-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-moss);
+            border-radius: 8px;
+            padding: 18px;
+        }
+
+        .side-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
         /* CHAT BOX */
-        .chat-area { height: 200px; overflow-y: auto; font-size: 13px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 8px; }
-        .chat-msg { background: #343536; padding: 5px 10px; border-radius: 10px; width: fit-content; }
-        .chat-input { width: 100%; background: #1a1a1b; border: 1px solid #343536; color: white; padding: 8px; box-sizing: border-box; }
+        .chat-area {
+            height: 200px;
+            overflow-y: auto;
+            font-size: 13px;
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .chat-msg {
+            background: #192219;
+            padding: 8px 12px;
+            border-radius: 12px;
+            width: fit-content;
+        }
+
+        .chat-input {
+            width: 100%;
+            background: var(--bg-deep-jungle);
+            border: 1px solid var(--border-moss);
+            color: var(--text-light);
+            padding: 10px;
+            box-sizing: border-box;
+            border-radius: 8px;
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--amber-accent);
+        }
 
         /* WORDLE PREVIEW */
-        .wordle-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; max-width: 150px; margin: 0 auto; }
-        .tile { width: 25px; height: 25px; border: 2px solid #343536; text-align: center; font-weight: bold; line-height: 25px; }
-        .tile.correct { background: #538d4e; border-color: #538d4e; }
+        .wordle-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 5px;
+            max-width: 150px;
+            margin: 0 auto;
+        }
+
+        .tile {
+            width: 25px;
+            height: 25px;
+            border: 2px solid var(--border-moss);
+            text-align: center;
+            font-weight: bold;
+            line-height: 25px;
+        }
+
+        .tile.correct {
+            background: #538d4e;
+            border-color: #538d4e;
+        }
+
+        .side-box:hover {
+            border-color: var(--amber-accent);
+        }
 
         .islands-tag {
             font-size: 10px;
-            background: #343536;
-            color: #818384;
+            background: #293529;
+            color: var(--text-muted);
             padding: 2px 6px;
             border-radius: 4px;
             margin-right: 5px;
             text-transform: uppercase;
         }
-
-
     </style>
 </head>
 <body>
@@ -63,6 +217,7 @@
     <a href="islands.html">Islands</a>
     <a href="profile.html" style="margin-left: auto;">My Profile</a>
     <a href="create.html" class="create-btn">Create Post</a>
+    <a href="notification.html">Notifications</a>
 </nav>
 
 <div class="container">
