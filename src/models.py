@@ -63,3 +63,23 @@ class Post(db.Model):
             'likes': self.likes,
             'comments': self.comments
         }
+
+class Nest(db.Model):
+    __tablename__ = 'nests'
+
+    id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    island_id = db.Column(db.String(255), nullable=False)
+    name = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.Text, nullable=True)
+    creator_id = db.Column(db.String(255), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'islandId': self.island_id,
+            'name': self.name,
+            'description': self.description,
+            'creatorId': self.creator_id,
+            'createdAt': self.created_at.isoformat() if self.created_at else None
+        }
