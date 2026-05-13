@@ -1,14 +1,12 @@
 {
   "name": "campusaurus",
   "version": "1.0.0",
-  "description": "Vanilla multi-page frontend + Node/Express backend",
+  "description": "Vanilla multi-page frontend + Flask backend",
   "private": true,
-  "type": "module",
-  "main": "src/server.js",
   "scripts": {
-    "start": "node src/server.js",
-    "dev": "nodemon src/server.js",
-    "test": "node -e \"console.log('ok')\""
+    "start": "python server.py",
+    "dev": "python server.py",
+    "test": "python -c \"print('ok')\""
   },
   "repository": {
     "type": "git",
@@ -20,14 +18,5 @@
   "bugs": {
     "url": "https://github.com/jksalcedo/campusaurus/issues"
   },
-  "homepage": "https://github.com/jksalcedo/campusaurus#readme",
-  "dependencies": {
-    "@supabase/supabase-js": "^2.105.3",
-    "cors": "^2.8.6",
-    "dotenv": "^17.4.2",
-    "express": "^5.2.1"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.14"
-  }
+  "homepage": "https://github.com/jksalcedo/campusaurus#readme"
 }

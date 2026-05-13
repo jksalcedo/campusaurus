@@ -145,61 +145,96 @@
     <h1>Explore the Archipelago</h1>
     
     <div class="island-grid">
-        <a href="nest.html" class="island-card">
+        <a href="nest.html?island=ccs" class="island-card">
             <div class="island-banner" style="background: #2a3a2a;">💻</div>
             <div class="island-info">
                 <div class="island-name">CCS Island</div>
                 <div class="island-desc">The Cyber Jungle. Home of the Tech-saurs and algorithmic predators.</div>
-                <div class="nest-count">24 Nests Active</div>
+                <div class="nest-count" id="count-ccs">Mapping territory...</div>
             </div>
         </a>
 
-        <a href="nest.html" class="island-card">
+        <a href="nest.html?island=cea" class="island-card">
             <div class="island-banner" style="background: #3a2a2a;">🏗️</div>
             <div class="island-info">
                 <div class="island-name">CEA Island</div>
                 <div class="island-desc">The Iron Peak. Forgers of infrastructure and master architects.</div>
-                <div class="nest-count">18 Nests Active</div>
+                <div class="nest-count" id="count-cea">Mapping territory...</div>
             </div>
         </a>
 
-        <a href="nest.html" class="island-card">
+        <a href="nest.html?island=chs" class="island-card">
             <div class="island-banner" style="background: #2a3a3a;">🏥</div>
             <div class="island-info">
                 <div class="island-name">CHS Island</div>
                 <div class="island-desc">The Healing Springs. The sanctuary for nursing and health heroes.</div>
-                <div class="nest-count">15 Nests Active</div>
+                <div class="nest-count" id="count-chs">Mapping territory...</div>
             </div>
         </a>
 
-        <a href="nest.html" class="island-card">
+        <a href="nest.html?island=cthbm" class="island-card">
             <div class="island-banner" style="background: #3a3a2a;">🏨</div>
             <div class="island-info">
                 <div class="island-name">CTHBM Island</div>
                 <div class="island-desc">The Golden Sands. Masters of hospitality and business management.</div>
-                <div class="nest-count">21 Nests Active</div>
+                <div class="nest-count" id="count-cthbm">Mapping territory...</div>
             </div>
         </a>
 
-        <a href="nest.html" class="island-card">
+        <a href="nest.html?island=ctde" class="island-card">
             <div class="island-banner" style="background: #2a2a3a;">📚</div>
             <div class="island-info">
                 <div class="island-name">CTDE Island</div>
                 <div class="island-desc">The Wisdom Grove. Shaping the minds of tomorrow's educators.</div>
-                <div class="nest-count">10 Nests Active</div>
+                <div class="nest-count" id="count-ctde">Mapping territory...</div>
             </div>
         </a>
 
-        <a href="nest.html" class="island-card">
+        <a href="nest.html?island=cas" class="island-card">
             <div class="island-banner" style="background: #3a2a3a;">🎨</div>
             <div class="island-info">
                 <div class="island-name">CAS Island</div>
                 <div class="island-desc">The Creative Crater. Exploring the depths of arts and sciences.</div>
-                <div class="nest-count">32 Nests Active</div>
+                <div class="nest-count" id="count-cas">Mapping territory...</div>
             </div>
         </a>
     </div>
 </div>
+
+<script type="module">
+    import { CampusaurusAPI } from './api.js';
+
+    async function loadIslandStats() {
+        try {
+            // Fetch the live counts from your backend
+            const data = await CampusaurusAPI.islands.stats();
+            const stats = data.stats; // Looks like: { ccs: 5, cea: 0, cas: 12 ... }
+
+            // Array of all your island IDs
+            const islands = ['ccs', 'cea', 'chs', 'cthbm', 'ctde', 'cas'];
+
+            // Loop through and update the HTML for each one
+            islands.forEach(island => {
+                const countElement = document.getElementById(`count-${island}`);
+                if (countElement) {
+                    const count = stats[island] || 0;
+                    countElement.innerText = `${count} Nests Active`;
+                }
+            });
+
+        } catch (error) {
+            console.error("Failed to load map data:", error);
+            // If the server fails, show an error state
+            document.querySelectorAll('.nest-count').forEach(el => {
+                el.innerText = "Signal Lost";
+                el.style.color = "#ff4500"; 
+            });
+        }
+    }
+
+    // Trigger the function immediately on page load
+    loadIslandStats();
+</script>
 
 </body>
 </html>
