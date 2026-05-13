@@ -56,12 +56,3 @@ The application will be available at http://localhost:3000
 
 - **announcements**: id, title, body, author_id, created_at
 - **posts**: id, category_id, title, content, author_id, created_at, likes, comments
-
-## Migration from Supabase
-
-This project has been migrated from Supabase to local XAMPP MySQL:
-
-- Removed all Supabase dependencies
-- Converted to SQLAlchemy ORM
-- Added database schema file
-- Updated to use local MySQL database
