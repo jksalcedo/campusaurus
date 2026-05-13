@@ -1,4 +1,4 @@
-import { CampusaurusAPI } from '../api.js';
+import { CampusaurusAPI } from '/api.js';
 
 // Show/Hide the specific zone input based on dropdown selection
 const categorySelect = document.getElementById('category');
