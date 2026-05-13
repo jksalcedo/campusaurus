@@ -4,24 +4,15 @@
     <meta charset="UTF-8">
     <title>Log Discovery | Campusaurus</title>
     <style>
-        /* =========================================
-           1. GLOBAL DESIGN SYSTEM (CSS Variables)
-           ========================================= */
         @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&display=swap');
 
         :root {
-            /* Typography */
             --font-heading: 'Oswald', sans-serif;
             --font-body: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            --text-micro: 11px;
-            --text-small: 13px;
-            --text-base: 15px;
-            --text-large: 18px;
-            --text-h2: 24px;
-
-            /* Jurassic Color Palette */
+            
             --bg-deep-jungle: #161c16;
             --bg-foliage: #222d22;
+            --bg-card: #2a362a;
             --border-moss: #3a4a3a;
             --text-light: #e0e6dd;
             --text-muted: #a4b3a4;
@@ -29,167 +20,135 @@
             --amber-hover: #ffbe4d;
         }
 
-        /* =========================================
-           2. BASE STYLES & LAYOUT
-           ========================================= */
         body { 
             font-family: var(--font-body); 
-            font-size: var(--text-base);
             background: var(--bg-deep-jungle); 
             color: var(--text-light); 
             margin: 0; 
             display: flex; 
             flex-direction: column; 
-            height: 100vh; 
-            line-height: 1.5;
+            min-height: 100vh; 
         }
 
-        h1, h2, h3, .logo-text {
-            font-family: var(--font-heading);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin: 0;
-        }
+        h1, h2, .logo-text { font-family: var(--font-heading); text-transform: uppercase; letter-spacing: 1px; margin: 0; }
 
-        /* NAVBAR */
-        nav { 
-            background: var(--bg-foliage); 
-            padding: 10px 20px; 
-            display: flex; 
-            gap: 20px; 
-            align-items: center; 
-            border-bottom: 1px solid var(--border-moss); 
-        }
-        nav a { color: var(--text-muted); text-decoration: none; font-weight: bold; transition: color 0.2s; font-size: var(--text-base); }
+        /* Navbar */
+        nav { background: var(--bg-foliage); padding: 15px 30px; display: flex; gap: 25px; align-items: center; border-bottom: 2px solid var(--border-moss); box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
+        nav a { color: var(--text-muted); text-decoration: none; font-weight: bold; transition: color 0.2s; font-size: 15px; }
         nav a:hover { color: var(--amber-accent); }
-        .logo-text { font-size: var(--text-h2); color: var(--amber-accent); margin-right: 20px; }
+        .logo-text { font-size: 24px; color: var(--amber-accent); margin-right: 20px; }
 
-        /* MAIN CONTAINER */
-        .container { 
-            padding: 20px; 
-            max-width: 1200px; 
-            margin: 0 auto; 
-            width: 100%; 
-            box-sizing: border-box;
-        }
+        /* Main Container */
+        .container { max-width: 800px; margin: 40px auto; padding: 0 20px; width: 100%; box-sizing: border-box; }
+        .back-link { color: var(--text-muted); text-decoration: none; display: inline-block; margin-bottom: 20px; font-weight: bold; transition: color 0.2s; }
+        .back-link:hover { color: var(--amber-accent); }
 
-        /* =========================================
-           3. FORM STYLES
-           ========================================= */
-        .form-container { 
-            max-width: 600px; 
-            margin: 30px auto; 
-            background: var(--bg-foliage); 
-            padding: 30px; 
-            border-radius: 8px; 
+        .form-card { 
+            background: var(--bg-card); 
+            padding: 40px; 
+            border-radius: 12px; 
             border: 1px solid var(--border-moss); 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
         }
         
-        h1 { 
-            font-size: var(--text-h2); 
-            border-bottom: 2px solid var(--amber-accent); 
-            padding-bottom: 10px; 
-            margin-bottom: 25px; 
-            color: var(--amber-accent); 
-        }
+        .form-header { border-bottom: 2px solid var(--border-moss); padding-bottom: 15px; margin-bottom: 30px; }
+        .form-header h1 { font-size: 28px; color: var(--amber-accent); }
         
-        label { 
-            display: block; 
-            margin-bottom: 8px; 
-            font-size: var(--text-small); 
-            color: var(--text-muted); 
-            font-weight: bold; 
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
+        /* Inputs */
+        .form-group { margin-bottom: 25px; }
+        label { display: block; margin-bottom: 8px; font-size: 13px; color: var(--text-muted); font-weight: bold; letter-spacing: 1px; text-transform: uppercase; }
         
-        input, textarea, select { 
+        input[type="text"], textarea, select { 
             width: 100%; 
             background: var(--bg-deep-jungle); 
-            border: 1px solid var(--border-moss); 
+            border: 2px solid var(--border-moss); 
             color: var(--text-light); 
-            font-size: var(--text-base);
-            padding: 12px; 
-            margin-bottom: 25px; 
-            border-radius: 4px; 
+            font-size: 16px;
+            padding: 14px; 
+            border-radius: 8px; 
             box-sizing: border-box; 
             font-family: inherit;
-            transition: border-color 0.2s, box-shadow 0.2s;
+            transition: all 0.3s ease;
         }
         
         input:focus, textarea:focus, select:focus {
             outline: none;
             border-color: var(--amber-accent);
-            box-shadow: 0 0 5px rgba(229, 169, 61, 0.3);
+            box-shadow: 0 0 10px rgba(229, 169, 61, 0.2);
+            background: #1a221a;
         }
-        
-        .btn-post { 
+
+        /* Submit Button */
+        .btn-submit { 
             background: var(--amber-accent); 
             color: var(--bg-deep-jungle); 
             border: none; 
-            padding: 12px 24px; 
+            padding: 14px 30px; 
             font-weight: bold; 
-            font-size: var(--text-base);
+            font-size: 16px;
             font-family: var(--font-heading);
-            border-radius: 4px; 
+            border-radius: 6px; 
             cursor: pointer; 
-            float: right; 
-            transition: background 0.2s, transform 0.1s;
-            letter-spacing: 0.5px;
+            transition: all 0.2s;
+            width: 100%;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
         
-        .btn-post:hover { 
-            background: var(--amber-hover); 
-            transform: translateY(-2px);
-        }
-
-        .btn-post:disabled {
-            background: var(--text-muted);
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        .back-link { 
-            color: var(--amber-accent); 
-            text-decoration: none; 
-            font-size: var(--text-base); 
-            display: inline-block;
-            margin-bottom: 20px;
-            font-weight: bold;
-        }
-        
-        .back-link:hover { text-decoration: underline; }
+        .btn-submit:hover { background: var(--amber-hover); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(229, 169, 61, 0.3); }
+        .btn-submit:disabled { background: var(--text-muted); cursor: not-allowed; transform: none; box-shadow: none; }
     </style>
 </head>
 <body>
 
-<form id="create-post-form">
-    
-    <label for="category">EXCAVATION ZONE (SCOPE)</label>
-    <select id="category" required>
-        <option value="world">🌍 Pangaea (World - All CSPC)</option>
-        <option value="island">🏝️ Island (Department Level)</option>
-        <option value="nest">🪹 Nest (Class/Community Level)</option>
-        <option value="hunt">🍖 The Hunt (Looking For...)</option>
-        <option value="announcement">📢 Amber Alert (Announcement)</option>
-    </select>
+<nav>
+    <div class="logo-text">Campusaurus🦖</div>
+    <a href="index.html">Base Camp</a>
+    <a href="announcements.html">Announcements</a>
+    <a href="islands.html">Islands</a>
+    <a href="profile.html" style="margin-left: auto;">My Profile</a>
+</nav>
 
-    <div id="specific-zone-container" style="display: none;">
-        <label for="specificZone" id="specificZoneLabel">SPECIFIC ZONE NAME</label>
-        <input type="text" id="specificZone" placeholder="e.g., CCS Island or n/ProjectDino">
+<div class="container">
+    <a href="index.html" class="back-link">← Return to Base Camp</a>
+
+    <div class="form-card">
+        <div class="form-header">
+            <h1>Log New Discovery</h1>
+        </div>
+        
+        <form id="create-post-form">
+            
+            <div class="form-group">
+                <label for="category">EXCAVATION ZONE (SCOPE)</label>
+                <select id="category" required>
+                    <option value="world">🌍 Pangaea (World - All CSPC)</option>
+                    <option value="island">🏝️ Island (Department Level)</option>
+                    <option value="nest">🪹 Nest (Class/Community Level)</option>
+                    <option value="hunt">🍖 The Hunt (Looking For...)</option>
+                    <option value="announcement">📢 Amber Alert (Announcement)</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="specific-zone-container" style="display: none;">
+                <label for="specificZone" id="specificZoneLabel">SPECIFIC ZONE NAME</label>
+                <input type="text" id="specificZone" placeholder="e.g., CCS Island or n/ProjectDino">
+            </div>
+
+            <div class="form-group">
+                <label for="title">SPECIMEN LOG (TITLE)</label>
+                <input type="text" id="title" placeholder="What did you unearth today?" required>
+            </div>
+
+            <div class="form-group">
+                <label for="content">FIELD NOTES (CONTENT)</label>
+                <textarea id="content" rows="8" placeholder="Detail your findings... (optional)"></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit" id="submit-btn">PUBLISH RECORD</button>
+        </form>
     </div>
-
-    <label for="title">SPECIMEN LOG (TITLE)</label>
-    <input type="text" id="title" placeholder="What did you unearth today?" required>
-
-    <label for="content">FIELD NOTES (CONTENT)</label>
-    <textarea id="content" rows="8" placeholder="Detail your findings... (optional)"></textarea>
-
-    <button type="submit" class="btn-post" id="submit-btn">PUBLISH RECORD</button>
-    <div style="clear: both;"></div>
-    
-</form>
+</div>
 
 <script type="module">
     import { CampusaurusAPI } from './api.js';
@@ -225,15 +184,12 @@
         const title = document.getElementById('title').value;
         const content = document.getElementById('content').value;
 
-        // If they specified an island or nest, append it to the category string
         if ((categoryId === 'island' || categoryId === 'nest') && specificZone) {
             categoryId = `${categoryId}:${specificZone}`;
         }
 
         try {
-            // LOGIC SPLIT: Is it an announcement or a regular post?
             if (categoryId === 'announcement') {
-                // Note: Your api.js expects 'body' instead of 'content' for announcements
                 await CampusaurusAPI.announcements.create({
                     title: title,
                     body: content 
@@ -241,7 +197,6 @@
                 alert("Amber Alert Broadcasted Successfully!");
                 window.location.href = "announcements.html"; 
             } else {
-                // Standard Post
                 await CampusaurusAPI.posts.create({
                     title: title,
                     content: content,
@@ -250,7 +205,6 @@
                 alert("Discovery logged successfully!");
                 window.location.href = "index.html"; 
             }
-
         } catch (error) {
             console.error(error);
             alert("Failed to log discovery. System error: " + error.message);
@@ -260,3 +214,6 @@
         }
     });
 </script>
+
+</body>
+</html>
