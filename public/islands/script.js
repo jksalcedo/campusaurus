@@ -1,4 +1,4 @@
-    import { CampusaurusAPI } from '../api.js';
+    import { CampusaurusAPI } from '/api.js';
 
     async function loadIslandStats() {
         try {
