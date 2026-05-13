@@ -1,0 +1,28 @@
+        body { font-family: 'Segoe UI', sans-serif; background: #1a1a1b; color: #d7dadc; margin: 0; padding: 20px; }
+        .container { max-width: 500px; margin: 40px auto; }
+        
+        /* Auth Card */
+        .auth-box { background: #272729; padding: 30px; border-radius: 8px; border: 1px solid #343536; }
+        .auth-box h2 { margin-top: 0; font-size: 22px; text-align: center; }
+        .auth-box p { font-size: 14px; color: #818384; text-align: center; margin-bottom: 25px; }
+        
+        /* Form Styling */
+        label { display: block; font-size: 11px; font-weight: bold; color: #818384; margin-bottom: 5px; text-transform: uppercase; }
+        input, select { width: 100%; background: #1a1a1b; border: 1px solid #343536; color: white; padding: 10px; margin-bottom: 15px; border-radius: 4px; box-sizing: border-box; }
+        input:focus, select:focus { outline: none; border-color: #d7dadc; }
+
+        /* Dino Avatar Picker */
+        .avatar-container { display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; background: #1a1a1b; padding: 15px; border-radius: 8px; border: 1px solid #343536; }
+        .avatar-option { font-size: 30px; cursor: pointer; padding: 10px; border-radius: 50%; border: 2px solid transparent; transition: 0.2s; }
+        .avatar-option:hover { background: #343536; }
+        .avatar-selected { border-color: #4bb543; background: #2e4a3d; }
+
+        .btn-join { background: #d7dadc; color: #1a1a1b; border: none; padding: 12px; width: 100%; font-weight: bold; border-radius: 20px; cursor: pointer; transition: 0.2s; margin-top: 10px;}
+        .btn-join:hover { background: #ffffff; transform: scale(1.02); }
+        .btn-join:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* Profile View */
+        #user-profile { display: none; background: #272729; padding: 30px; border-radius: 8px; border: 1px solid #343536; text-align: center; }
+        .user-badge { background: #3d3d3f; padding: 5px 12px; border-radius: 20px; font-size: 12px; margin: 0 5px; font-weight: bold; }
+        
+        .logout-btn { background: none; border: 1px solid #ff4500; color: #ff4500; padding: 8px 20px; border-radius: 5px; cursor: pointer; margin-top: 30px; }

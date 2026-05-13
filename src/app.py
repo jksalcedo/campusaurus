@@ -36,11 +36,11 @@ def health():
 
 @app.route("/")
 def index():
-    return app.send_static_file("index.html")
+    return app.send_static_file("index/index.html")
 
 @app.errorhandler(404)
 def not_found(error):
-    return app.send_static_file("index.html")
+    return app.send_static_file("index/index.html")
 
 # Announcements routes
 @app.route("/api/announcements", methods=["GET"])

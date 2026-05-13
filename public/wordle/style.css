@@ -1,0 +1,60 @@
+        body { font-family: 'Segoe UI', sans-serif; background: #1a1a1b; color: #d7dadc; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        
+        nav { width: 100%; max-width: 1200px; margin-bottom: 20px; display: flex; gap: 20px; }
+        nav a { color: #818384; text-decoration: none; font-size: 14px; }
+
+        .game-container { background: #272729; padding: 30px; border-radius: 10px; border: 1px solid #343536; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+        
+        .topic-header { color: #818384; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+        h1 { margin: 0 0 20px 0; font-size: 28px; }
+
+        .grid { display: grid; grid-template-rows: repeat(6, 0.5fr); gap: 10px; margin-bottom: 20px; }
+        .row { display: grid; grid-template-columns: repeat(5, 0.5fr); gap: 10px; }
+        .tile {
+            width: 80px; height: 80px; border: 2px solid #3a3a3c;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 26px; font-weight: bold; text-transform: uppercase;
+            transition: all 0.15s ease;
+        }
+
+        /* COLORS */
+        .tile.correct { background: #538d4e; border-color: #538d4e; color: white; }
+        .tile.present { background: #b59f3b; border-color: #b59f3b; color: white; }
+        .tile.absent { background: #3a3a3c; border-color: #3a3a3c; color: white; }
+        .tile.active { border-color: #818384; transform: scale(1.05); }
+
+        #message { height: 40px; margin-top: 15px; font-weight: bold; font-size: 18px; }
+        .reset-btn { background: #d7dadc; color: #1a1a1b; border: none; padding: 10px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; margin-top: 20px; display: none; }
+
+        #keyboard {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.keyboard-row {
+    display: flex;
+    margin-bottom: 8px;
+}
+
+.key {
+    background: #818384;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 20px 16px;
+    margin: 0 4px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.big-key {
+    padding: 15px 20px;
+}
+
+/* Coloring classes for the letters */
+.correct { background: #538d4e !important; } /* Green */
+.present { background: #b59f3b !important; } /* Yellow */
+.absent { background: #3a3a3c !important; }  /* Gray */

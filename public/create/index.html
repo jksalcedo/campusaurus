@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Log Discovery | Campusaurus</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+    <div class="logo-text">Campusaurus🦖</div>
+    <a href="../index/">Base Camp</a>
+    <a href="../announcements/">Announcements</a>
+    <a href="../islands/">Islands</a>
+    <a href="../profile/" style="margin-left: auto;">My Profile</a>
+</nav>
+
+<div class="container">
+    <a href="../index/" class="back-link">← Return to Base Camp</a>
+
+    <div class="form-card">
+        <div class="form-header">
+            <h1>Log New Discovery</h1>
+        </div>
+        
+        <form id="create-post-form">
+            
+            <div class="form-group">
+                <label for="category">EXCAVATION ZONE (SCOPE)</label>
+                <select id="category" required>
+                    <option value="world">🌍 Pangaea (World - All CSPC)</option>
+                    <option value="island">🏝️ Island (Department Level)</option>
+                    <option value="nest">🪹 Nest (Class/Community Level)</option>
+                    <option value="hunt">🍖 The Hunt (Looking For...)</option>
+                    <option value="announcement">📢 Amber Alert (Announcement)</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="specific-zone-container" style="display: none;">
+                <label for="specificZone" id="specificZoneLabel">SPECIFIC ZONE NAME</label>
+                <input type="text" id="specificZone" placeholder="e.g., CCS Island or n/ProjectDino">
+            </div>
+
+            <div class="form-group">
+                <label for="title">SPECIMEN LOG (TITLE)</label>
+                <input type="text" id="title" placeholder="What did you unearth today?" required>
+            </div>
+
+            <div class="form-group">
+                <label for="content">FIELD NOTES (CONTENT)</label>
+                <textarea id="content" rows="8" placeholder="Detail your findings... (optional)"></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit" id="submit-btn">PUBLISH RECORD</button>
+        </form>
+    </div>
+</div>
+
+<script type="module" src="script.js"></script>
+
+</body>
+</html>

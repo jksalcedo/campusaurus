@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Island Nests | RedditLite 🦖</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+    <div style="font-size: 20px; margin-right: 20px;"><b>Reddit</b>Lite 🦖</div>
+    <a href="../index/">Feed</a>
+    <a href="../islands/">← Back to Islands</a>
+</nav>
+
+<div class="island-header">
+    <h1 id="island-title" style="margin: 0;">Island Nests</h1>
+    <p style="opacity: 0.8;">Explore and build community habitats.</p>
+</div>
+
+<div class="container">
+    <div class="create-nest-trigger" onclick="toggleModal(true)">
+        <span style="font-size: 24px;">🏗️</span><br>
+        <b>Build a New Nest</b><br>
+        <span style="font-size: 12px;">Let the community grow on this Island</span>
+    </div>
+
+    <div id="nest-container">
+        <a href="../index/" class="nest-card">
+            <div class="nest-info">
+                <h3>n/GeneralHub</h3>
+                <p>The main gathering spot for all members of this Island.</p>
+            </div>
+            <div class="visit-btn">Visit Nest</div>
+        </a>
+    </div>
+</div>
+
+<div id="nestModal" class="modal">
+    <div class="modal-content">
+        <h2 style="margin-top:0;">Establish a Nest</h2>
+        <p style="font-size: 12px; color: #818384;">Give your group a name and a purpose.</p>
+        
+        <input type="text" id="nestName" placeholder="n/NestName (e.g. n/ProjectDino)">
+        <textarea id="nestDesc" placeholder="What happens in this nest?"></textarea>
+        
+        <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:10px;">
+            <button class="form-btn" onclick="toggleModal(false)" style="background:transparent; color:#818384;">Cancel</button>
+            <button class="form-btn" onclick="addNewNest()" style="background:#4bb543; color:white;">Create Nest</button>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

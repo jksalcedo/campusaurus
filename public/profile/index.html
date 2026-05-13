@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile & Join | RedditLite 🦖</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <nav style="margin-bottom: 20px;">
+        <a href="../index/" style="color: #818384; text-decoration: none; font-size: 14px;">← Back to Home Feed</a>
+    </nav>
+
+    <div id="auth-section" class="auth-box">
+        <h2>Join the Archipelago</h2>
+        <p>Pick your species and join your Island.</p>
+        
+        <form id="signup-form">
+            <label>Choose Your Dino Species</label>
+            <div class="avatar-container">
+                <div class="avatar-option avatar-selected" onclick="selectAvatar('🦖', this)">🦖</div>
+                <div class="avatar-option" onclick="selectAvatar('🦕', this)">🦕</div>
+                <div class="avatar-option" onclick="selectAvatar('🐊', this)">🐊</div>
+                <div class="avatar-option" onclick="selectAvatar('🐢', this)">🐢</div>
+                <div class="avatar-option" onclick="selectAvatar('🦎', this)">🦎</div>
+            </div>
+            <input type="hidden" id="selected-avatar" value="🦖">
+
+            <label>Username</label>
+            <input type="text" id="username" required>
+
+            <label>Student Email</label>
+            <input type="email" id="email" required>
+
+            <label>Password</label>
+            <input type="password" id="password" required>
+
+            <div style="display: flex; gap: 10px;">
+                <div style="flex: 1;">
+                    <label>Age</label>
+                    <input type="number" id="age" min="16" required>
+                </div>
+                <div style="flex: 1;">
+                    <label>Gender</label>
+                    <select id="gender">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <label>Assigned Island</label>
+            <select id="dept">
+                <option value="CCS">CCS Island</option>
+                <option value="CEA">CEA Island</option>
+                <option value="CHS">CHS Island</option>
+                <option value="CTHBM">CTHBM Island</option>
+                <option value="CTDE">CTDE Island</option>
+                <option value="CAS">CAS Island</option>
+            </select>
+
+            <label>Year Level</label>
+            <select id="year">
+                <option value="1st Year">1st Year</option>
+                <option value="2nd Year">2nd Year</option>
+                <option value="3rd Year">3rd Year</option>
+                <option value="4th Year">4th Year</option>
+            </select>
+
+            <button type="submit" id="submit-btn" class="btn-join">Verify & Evolve</button>
+        </form>
+    </div>
+
+    <div id="user-profile">
+        <div id="display-dino" style="font-size: 60px; margin-bottom: 10px;">🦖</div>
+        <h1 id="display-username" style="margin: 0;">u/username</h1>
+        <p id="display-email" style="color: #818384; margin-top: 5px; margin-bottom: 20px;">email@student.edu</p>
+        
+        <div>
+            <span class="user-badge" id="display-dept">Island</span>
+            <span class="user-badge" id="display-year">Year</span>
+        </div>
+        
+        <hr style="border: 0; border-top: 1px solid #343536; margin: 30px 0;">
+        
+        <h3>Your Activity</h3>
+        <p style="color: #818384; font-size: 14px;" id="stat-wordle">Total Wordle Wins: 0</p>
+        <p style="color: #818384; font-size: 14px;" id="stat-posts">Posts Created: 0</p>
+        
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+</div>
+
+<script type="module" src="script.js"></script>
+
+</body>
+</html>
