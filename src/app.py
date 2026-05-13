@@ -15,6 +15,13 @@ from .posts_store import (
     update_post,
     delete_post
 )
+from .nests_store import (
+    list_nests,
+    create_nest,
+    update_nest,
+    delete_nest
+)
+
 from .database import init_db
 
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -204,6 +211,57 @@ def create_not_implemented_handler(feature_name):
             "message": f"Backend for '{feature_name}' isn't implemented yet."
         }), 501
     return handler
+# ==========================================
+# NESTS ROUTES
+# ==========================================
+@app.route("/api/nests", methods=["GET"])
+def list_nests_route():
+    try:
+        island_id = request.args.get("island")
+        nests = list_nests(island_id)
+        return jsonify({"nests": nests})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route("/api/nests", methods=["POST"])
+def create_nest_route():
+    island_id = as_non_empty_string(request.json.get("islandId", ""))
+    name = as_non_empty_string(request.json.get("name", ""))
+    description = as_non_empty_string(request.json.get("description", ""))
+
+    if not island_id or not name:
+        return jsonify({"error": "islandId and name are required"}), 400
+
+    try:
+        item = create_nest({
+            "islandId": island_id, 
+            "name": name, 
+            "description": description
+        })
+        return jsonify(item), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route("/api/nests/<nest_id>", methods=["PATCH"])
+def update_nest_route(nest_id):
+    try:
+        description = as_non_empty_string(request.json.get("description", ""))
+        updated = update_nest(nest_id, {"description": description})
+        if not updated:
+            return jsonify({"error": "not found"}), 404
+        return jsonify(updated)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route("/api/nests/<nest_id>", methods=["DELETE"])
+def delete_nest_route(nest_id):
+    try:
+        success = delete_nest(nest_id)
+        if not success:
+            return jsonify({"error": "not found"}), 404
+        return "", 204
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 app.add_url_rule("/api/me", "me_stub", create_not_implemented_handler("me"), methods=["GET", "POST", "PUT", "DELETE", "PATCH"])
 app.add_url_rule("/api/me/<path:path>", "me_stub_path", create_not_implemented_handler("me"), methods=["GET", "POST", "PUT", "DELETE", "PATCH"])
