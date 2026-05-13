@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Campusaurus</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+    <div style="font-size: 20px; margin-right: 20px;"><b>Campusaurus</b>🦖</div>
+    <a href="#">Newest</a>
+    <a href="#">Popular</a>
+    <a href="../announcements/">Announcements</a>
+    <a href="../islands/">Islands</a>
+    <a href="../profile/" style="margin-left: auto;">My Profile</a>
+    <a href="../create/" class="create-btn">Create Post</a>
+    <a href="../notification/">Notifications</a>
+</nav>
+
+<div class="container">
+    <!-- MAIN FEED -->
+    <div class="feed">
+        <div class="post-card">
+            <div class="post-meta">Posted by User123 • 2 hours ago in <b>#General</b></div>
+            <h2 class="post-title">How do I center a div in 2026?</h2>
+            <p class="post-content">I've been trying for hours and nothing works. Is Flexbox still the king or should I use Grid?</p>
+            <div class="post-stats">
+                <span>▲ 42 Upvotes</span>
+                <span>💬 12 Comments</span>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <div class="post-meta" style="color: #ff4500;">Posted by Admin • 5 hours ago in <b>#Announcements</b></div>
+            <h2 class="post-title">Upcoming Exam Schedule for CS-201</h2>
+            <p class="post-content">Check the attached PDF for the finalized dates. No makeup exams will be allowed.</p>
+            <div class="post-stats">
+                <span>▲ 105 Upvotes</span>
+                <span>💬 45 Comments</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <!-- CHAT BOX -->
+        <div class="side-box">
+            <div class="side-title">Live Chat</div>
+            <div class="chat-area">
+                <div class="chat-msg"><b>UserA:</b> NIGGA?</div>
+                <div class="chat-msg"><b>UserB:</b> LOVEU MAAM MARIKAE.</div>
+                <div class="chat-msg"><b>UserC:</b> kado kita kurt from shayla</div>
+            </div>
+            <input type="text" class="chat-input" placeholder="Say something...">
+        </div>
+
+        <!-- WORDLE PREVIEW -->
+        <a href="../wordle/" style="text-decoration: none; color: inherit; display: block;">
+    <div class="side-box" style="transition: 0.3s; cursor: pointer;" onmouseover="this.style.borderColor='#818384'" onmouseout="this.style.borderColor='#343536'">
+        <div class="side-title">Daily Wordle</div>
+        <div class="wordle-grid">
+            <div class="tile correct">W</div><div class="tile">O</div><div class="tile">R</div><div class="tile">L</div><div class="tile">D</div>
+            <div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div>
+        </div>
+        <p style="font-size: 12px; text-align: center; margin-top: 10px; color: #818384;">Click to Play Wordle!</p>
+    </div>
+</a>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
