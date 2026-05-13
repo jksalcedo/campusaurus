@@ -1,44 +1,14 @@
-        /* =========================================
+/* =========================================
            1. GLOBAL DESIGN SYSTEM (CSS Variables)
            ========================================= */
-        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&display=swap');
+        
 
-        :root {
-            /* Typography */
-            --font-heading: 'Oswald', sans-serif;
-            --font-body: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            --text-micro: 11px;
-            --text-small: 13px;
-            --text-base: 15px;
-            --text-large: 18px;
-            --text-h2: 24px;
-            --text-h1: 32px;
-
-            /* Jurassic Color Palette */
-            --bg-deep-jungle: #161c16;
-            --bg-foliage: #222d22;
-            --border-moss: #3a4a3a;
-            --text-light: #e0e6dd;
-            --text-muted: #a4b3a4;
-            --amber-accent: #e5a93d;
-            --amber-hover: #ffbe4d;
-            --official-green: #538d4e;
-        }
+        
 
         /* =========================================
            2. BASE STYLES & LAYOUT
            ========================================= */
-        body { 
-            font-family: var(--font-body); 
-            font-size: var(--text-base);
-            background: var(--bg-deep-jungle); 
-            color: var(--text-light); 
-            margin: 0; 
-            display: flex; 
-            flex-direction: column; 
-            height: 100vh; 
-            line-height: 1.5;
-        }
+        
         
         h1, h2, h3, .logo-text, .island-name {
             font-family: var(--font-heading);
@@ -48,26 +18,12 @@
         }
 
         /* NAVBAR */
-        nav { 
-            background: var(--bg-foliage); 
-            padding: 10px 20px; 
-            display: flex; 
-            gap: 20px; 
-            align-items: center; 
-            border-bottom: 1px solid var(--border-moss); 
-        }
-        nav a { color: var(--text-muted); text-decoration: none; font-weight: bold; transition: color 0.2s; font-size: var(--text-base); }
-        nav a:hover { color: var(--amber-accent); }
-        .logo-text { font-size: var(--text-h2); color: var(--amber-accent); margin-right: 20px; }
         
-        .create-btn { 
-            background: var(--amber-accent); 
-            color: var(--bg-deep-jungle); 
-            padding: 6px 18px; 
-            border-radius: 4px; 
-            font-family: var(--font-heading);
-            transition: transform 0.1s, background 0.2s;
-        }
+        
+        
+        
+        
+        
         .create-btn:hover { background: var(--amber-hover); transform: translateY(-2px); }
 
         .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; width: 100%; box-sizing: border-box; }
