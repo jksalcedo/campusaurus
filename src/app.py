@@ -1,6 +1,7 @@
 import os
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, session
 from flask_cors import CORS
+from werkzeug.security import generate_password_hash, check_password_hash
 from .announcements_store import (
     list_announcements,
     create_announcement,
@@ -15,6 +16,8 @@ from .posts_store import (
     update_post,
     delete_post
 )
+from .database import db, init_db
+from .models import User
 from .nests_store import (
     list_nests,
     create_nest,
@@ -28,8 +31,9 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 public_path = os.path.join(project_root, "public")
 
 app = Flask(__name__, static_folder=public_path, static_url_path="")
+app.secret_key = os.getenv("SECRET_KEY", "campusaurus-secure-key-2026")
 print(f"!!! FLASK STATIC FOLDER IS: {public_path} !!!")
-CORS(app)
+CORS(app, supports_credentials=True)
 
 # Initialize database
 init_db(app)
@@ -201,7 +205,87 @@ def delete_post_route(post_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# Stub routes
+# Auth and Profile routes
+@app.route("/api/auth/register", methods=["POST"])
+def register():
+    data = request.json
+    username = as_non_empty_string(data.get("username"))
+    email = as_non_empty_string(data.get("email"))
+    password = as_non_empty_string(data.get("password"))
+
+    if not username or not email or not password:
+        return jsonify({"error": "username, email and password are required"}), 400
+
+    if User.query.filter_by(username=username).first():
+        return jsonify({"error": "username already exists"}), 400
+    
+    if User.query.filter_by(email=email).first():
+        return jsonify({"error": "email already exists"}), 400
+
+    user = User(
+        username=username,
+        email=email,
+        password_hash=generate_password_hash(password)
+    )
+    db.session.add(user)
+    db.session.commit()
+    return jsonify(user.to_dict()), 201
+
+@app.route("/api/auth/login", methods=["POST"])
+def login():
+    data = request.json
+    email = as_non_empty_string(data.get("email"))
+    password = as_non_empty_string(data.get("password"))
+
+    user = User.query.filter_by(email=email).first()
+    if not user or not check_password_hash(user.password_hash, password):
+        return jsonify({"error": "invalid email or password"}), 401
+
+    session["user_id"] = user.id
+    return jsonify(user.to_dict())
+
+@app.route("/api/auth/logout", methods=["POST"])
+def logout():
+    session.pop("user_id", None)
+    return "", 204
+
+@app.route("/api/me", methods=["GET"])
+def get_me():
+    user_id = session.get("user_id")
+    if not user_id:
+        return jsonify({"error": "not logged in"}), 401
+    
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({"error": "user not found"}), 404
+    
+    return jsonify(user.to_dict())
+
+@app.route("/api/profile", methods=["GET", "PATCH"])
+def profile():
+    user_id = session.get("user_id")
+    if not user_id:
+        return jsonify({"error": "not logged in"}), 401
+    
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({"error": "user not found"}), 404
+
+    if request.method == "GET":
+        return jsonify(user.to_dict())
+    
+    data = request.json
+    if "username" in data:
+        user.username = as_non_empty_string(data["username"])
+    if "avatarUrl" in data:
+        user.avatar_url = as_non_empty_string(data["avatarUrl"])
+    if "bio" in data:
+        user.bio = as_non_empty_string(data["bio"])
+    
+    db.session.commit()
+    return jsonify(user.to_dict())
+
+# Remaining Stub routes
 def create_not_implemented_handler(feature_name):
     def handler():
         return jsonify({
@@ -263,17 +347,8 @@ def delete_nest_route(nest_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-app.add_url_rule("/api/me", "me_stub", create_not_implemented_handler("me"), methods=["GET", "POST", "PUT", "DELETE", "PATCH"])
-app.add_url_rule("/api/me/<path:path>", "me_stub_path", create_not_implemented_handler("me"), methods=["GET", "POST", "PUT", "DELETE", "PATCH"])
-
-app.add_url_rule("/api/auth", "auth_stub", create_not_implemented_handler("auth"), methods=["GET", "POST", "PUT", "DELETE", "PATCH"])
-app.add_url_rule("/api/auth/<path:path>", "auth_stub_path", create_not_implemented_handler("auth"), methods=["GET", "POST", "PUT", "DELETE", "PATCH"])
-
 app.add_url_rule("/api/categories", "categories_stub", create_not_implemented_handler("categories"), methods=["GET", "POST", "PUT", "DELETE", "PATCH"])
 app.add_url_rule("/api/categories/<path:path>", "categories_stub_path", create_not_implemented_handler("categories"), methods=["GET", "POST", "PUT", "DELETE", "PATCH"])
-
-app.add_url_rule("/api/profile", "profile_stub", create_not_implemented_handler("profile"), methods=["GET", "POST", "PUT", "DELETE", "PATCH"])
-app.add_url_rule("/api/profile/<path:path>", "profile_stub_path", create_not_implemented_handler("profile"), methods=["GET", "POST", "PUT", "DELETE", "PATCH"])
 
 app.add_url_rule("/api/users", "users_stub", create_not_implemented_handler("users"), methods=["GET", "POST", "PUT", "DELETE", "PATCH"])
 app.add_url_rule("/api/users/<path:path>", "users_stub_path", create_not_implemented_handler("users"), methods=["GET", "POST", "PUT", "DELETE", "PATCH"])

@@ -4,6 +4,17 @@
 CREATE DATABASE IF NOT EXISTS campusaurus;
 USE campusaurus;
 
+-- Users table
+CREATE TABLE IF NOT EXISTS users (
+    id VARCHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    username VARCHAR(255) NOT NULL UNIQUE,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    avatar_url VARCHAR(255),
+    bio TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Announcements table
 CREATE TABLE IF NOT EXISTS announcements (
     id VARCHAR(36) PRIMARY KEY DEFAULT (UUID()),

@@ -52,7 +52,16 @@ The application will be available at http://localhost:3000
 - `PATCH /api/posts/<id>` - Update post
 - `DELETE /api/posts/<id>` - Delete post
 
+## Authentication Endpoints
+
+- `POST /api/auth/register` - Register a new user (email, password, username)
+- `POST /api/auth/login` - Login and start a session (email, password)
+- `POST /api/auth/logout` - Logout and end session
+- `GET /api/me` - Get current logged-in user info
+- `PATCH /api/profile` - Update current user profile (username, avatarUrl, bio)
+
 ## Database Schema
 
+- **users**: id, username, email, password_hash, avatar_url, bio, created_at
 - **announcements**: id, title, body, author_id, created_at
 - **posts**: id, category_id, title, content, author_id, created_at, likes, comments
