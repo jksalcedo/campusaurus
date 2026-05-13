@@ -201,6 +201,21 @@ export const CampusaurusAPI = {
             return requestJson("/api/wordle/leaderboard");
         }
     },
+    // --- Islands & Nests ---
+    islands: {
+        /** @returns {Promise<{ stats: Record<string, number> }>} */
+        stats() {
+            return requestJson("/api/islands/stats");
+        },
+        /** @param {string} islandId */
+        getNests(islandId) {
+            return requestJson(`/api/islands/${encodeURIComponent(islandId)}/nests`);
+        },
+        /** @param {{ islandId: string, name: string, description: string }} input */
+        createNest(input) {
+            return requestJson("/api/islands/nests", { method: "POST", body: JSON.stringify(input) });
+        }
+    },
 
     // Escape hatch for quick experiments
     _raw: {
