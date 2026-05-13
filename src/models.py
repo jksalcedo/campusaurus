@@ -2,6 +2,27 @@ from .database import db
 from datetime import datetime
 import uuid
 
+class User(db.Model):
+    __tablename__ = 'users'
+
+    id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    username = db.Column(db.String(255), unique=True, nullable=False)
+    email = db.Column(db.String(255), unique=True, nullable=False)
+    password_hash = db.Column(db.String(255), nullable=False)
+    avatar_url = db.Column(db.String(255), nullable=True)
+    bio = db.Column(db.Text, nullable=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'username': self.username,
+            'email': self.email,
+            'avatarUrl': self.avatar_url,
+            'bio': self.bio,
+            'createdAt': self.created_at.isoformat() if self.created_at else None
+        }
+
 class Announcement(db.Model):
     __tablename__ = 'announcements'
 
