@@ -43,6 +43,7 @@ async function loadNests() {
                 <div class="nest-card" id="nest-${nest.id}">
                     <div class="nest-info">
                         <h3>${nest.name}</h3>
+                        <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 5px;">Created by <b>${nest.creatorUsername || nest.creator_username || 'Student'}</b></p>
                         <p id="desc-${nest.id}">${nest.description || ''}</p>
                         <div style="margin-top: 10px; display:flex; gap:10px;">
                             <button onclick="editNest('${nest.id}')" style="background:none; border:none; color:var(--amber-accent); cursor:pointer; font-size:12px; padding:0;">[ Edit ]</button>

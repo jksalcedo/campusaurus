@@ -112,7 +112,7 @@ async function loadChat() {
         
         if (data.messages && data.messages.length > 0) {
             chatArea.innerHTML = data.messages.map(msg => `
-                <div class="chat-msg"><b>${msg.userId}:</b> ${msg.message}</div>
+                <div class="chat-msg"><b>${msg.username || msg.userId}:</b> ${msg.message}</div>
             `).join('');
             
             // Auto-scroll to newest message
@@ -169,4 +169,5 @@ function setupLiveChat() {
 document.addEventListener('DOMContentLoaded', () => {
     loadPosts();
     setupLiveChat();
+});veChat();
 });

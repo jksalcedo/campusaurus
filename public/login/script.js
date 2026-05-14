@@ -1,5 +1,16 @@
 import { CampusaurusAPI } from '/api.js';
 
+// Redirect if already logged in
+async function checkAuth() {
+    try {
+        const user = await CampusaurusAPI.me();
+        if (user) {
+            window.location.href = "/profile/index.html";
+        }
+    } catch (err) {}
+}
+checkAuth();
+
 const loginForm = document.getElementById('login-form');
 
 if (loginForm) {
