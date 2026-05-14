@@ -3,6 +3,8 @@
 // ==========================================
 let currentUser = null;
 let nestNameCache = null;
+let nestIslandMap = null;
+let allPosts = [];
 
 async function loadCurrentUser() {
   try {
@@ -105,6 +107,69 @@ async function loadPosts() {
                     </div>
                 </div>
             `;
+    })
+    .join("");
+}
+
+function applySearch() {
+  const searchInput = document.getElementById("post-search");
+  const islandFilter = document.getElementById("island-filter");
+  const query = searchInput ? searchInput.value.trim().toLowerCase() : "";
+  const selectedIsland = islandFilter ? islandFilter.value : "";
+
+  let filtered = allPosts;
+
+  if (selectedIsland) {
+    filtered = filtered.filter(
+      (post) => getIslandForPost(post) === selectedIsland,
+    );
+  }
+
+  if (query) {
+    filtered = filtered.filter((post) => {
+      const authorName = getAuthorName(post).toLowerCase();
+      const categoryLabel = resolveCategoryLabel(
+        post.category_id,
+      ).toLowerCase();
+      const title = (post.title || "").toLowerCase();
+      const content = (post.content || "").toLowerCase();
+      return (
+        authorName.includes(query) ||
+        categoryLabel.includes(query) ||
+        title.includes(query) ||
+        content.includes(query)
+      );
+    });
+  }
+
+  renderPosts(filtered, query);
+}
+
+async function loadPosts() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const nestId = urlParams.get("nest");
+
+  let apiUrl = "/api/posts";
+  if (nestId) {
+    apiUrl += `?categoryId=${nestId}`;
+    const nestName = await resolveNestName(nestId);
+    document.getElementById("feed-title").innerText = nestName
+      ? `Viewing: ${nestName}`
+      : `Viewing: ${nestId}`;
+  } else {
+    await loadNestNameCache();
+  }
+
+  try {
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+    allPosts = data.posts || [];
+    applySearch();
+  } catch (error) {
+    const container = document.getElementById("feed-container");
+    if (container) {
+      container.innerHTML = `<p style="color: #d94a4a;">Signal lost. Could not fetch posts.</p>`;
+    }
         })
         .join("");
     } else {
@@ -242,13 +307,20 @@ function setupLiveChat() {
 // 2. LIVE CHAT LOGIC
 // ==========================================
 
-// ==========================================
-// INITIALIZE PAGE
-// ==========================================
 async function initPage() {
   currentUser = await loadCurrentUser();
   await loadPosts();
   setupLiveChat();
+
+  const searchInput = document.getElementById("post-search");
+  if (searchInput) {
+    searchInput.addEventListener("input", applySearch);
+  }
+
+  const islandFilter = document.getElementById("island-filter");
+  if (islandFilter) {
+    islandFilter.addEventListener("change", applySearch);
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
