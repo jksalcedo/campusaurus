@@ -1,15 +1,15 @@
-let currentIslandId = 'ccs'; // Default
+import { showToast } from '/toast.js';
 
-function toggleModal(show) {
+let currentIslandId = 'ccs';
+
+window.toggleModal = function(show) {
     document.getElementById('nestModal').style.display = show ? 'flex' : 'none';
-    if(show) document.getElementById('nestName').focus();
-}
+    if (show) document.getElementById('nestName').focus();
+};
 
-// 1. Dynamic Island Title
 function initNestPage() {
     const urlParams = new URLSearchParams(window.location.search);
     const islandId = urlParams.get('island');
-    
     if (islandId) currentIslandId = islandId;
 
     const islandNames = {
@@ -20,16 +20,14 @@ function initNestPage() {
     if (islandNames[currentIslandId]) {
         const name = islandNames[currentIslandId];
         document.getElementById('island-title').innerText = name + ' Nests';
-        
         const breadcrumbSpan = document.querySelector('.breadcrumbs span');
         if (breadcrumbSpan) breadcrumbSpan.innerText = name;
         document.title = name + ' Nests | Campusaurus';
     }
 
-    loadNests(); // Fetch the nests once the page initializes
+    loadNests();
 }
 
-// 2. READ (Fetch from Flask)
 async function loadNests() {
     const container = document.getElementById('nest-container');
     container.innerHTML = '<p style="color:var(--text-muted);">Scanning radar...</p>';
@@ -61,13 +59,12 @@ async function loadNests() {
     }
 }
 
-// 3. CREATE (Send to Flask)
-async function addNewNest() {
+window.addNewNest = async function() {
     const name = document.getElementById('nestName').value;
     const desc = document.getElementById('nestDesc').value;
 
     if (!name || !desc) {
-        alert("Fill in both the name and description!");
+        showToast("Fill in both the name and description!", 'error');
         return;
     }
 
@@ -75,29 +72,24 @@ async function addNewNest() {
         const response = await fetch('/api/nests', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                islandId: currentIslandId,
-                name: name,
-                description: desc
-            })
+            body: JSON.stringify({ islandId: currentIslandId, name, description: desc })
         });
 
         if (response.ok) {
-            toggleModal(false);
+            window.toggleModal(false);
             document.getElementById('nestName').value = "";
             document.getElementById('nestDesc').value = "";
-            loadNests(); // Refresh the UI
+            loadNests();
         } else {
             const data = await response.json();
-            alert("Error: " + data.error);
+            showToast(data.error || "Failed to create nest.", 'error');
         }
     } catch (error) {
-        alert("Network error.");
+        showToast("Network error.", 'error');
     }
-}
+};
 
-// 4. UPDATE (Send PATCH to Flask)
-async function editNest(nestId) {
+window.editNest = async function(nestId) {
     const newDesc = prompt("Enter a new description:");
     if (!newDesc) return;
 
@@ -110,28 +102,29 @@ async function editNest(nestId) {
 
         if (response.ok) {
             document.getElementById(`desc-${nestId}`).innerText = newDesc;
+            showToast("Nest updated.", 'success');
         } else {
-            alert("Failed to update.");
+            showToast("Failed to update nest.", 'error');
         }
     } catch (error) {
-        alert("Network error.");
+        showToast("Network error.", 'error');
     }
-}
+};
 
-// 5. DELETE (Send DELETE to Flask)
-async function deleteNest(nestId) {
+window.deleteNest = async function(nestId) {
     if (!confirm("Are you sure you want to delete this nest?")) return;
 
     try {
         const response = await fetch(`/api/nests/${nestId}`, { method: 'DELETE' });
         if (response.ok) {
-            loadNests(); // Refresh to remove the card
+            loadNests();
+            showToast("Nest deleted.", 'info');
         } else {
-            alert("Failed to delete.");
+            showToast("Failed to delete nest.", 'error');
         }
     } catch (error) {
-        alert("Network error.");
+        showToast("Network error.", 'error');
     }
-}
+};
 
 document.addEventListener('DOMContentLoaded', initNestPage);
