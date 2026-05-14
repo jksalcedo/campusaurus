@@ -162,36 +162,6 @@ function setupLiveChat() {
 }
 // 2. LIVE CHAT LOGIC
 // ==========================================
-function setupLiveChat() {
-    const chatInput = document.getElementById('chat-input');
-    const chatArea = document.getElementById('chat-area');
-
-    // Scroll to the bottom initially
-    chatArea.scrollTop = chatArea.scrollHeight;
-
-    chatInput.addEventListener('keypress', function (e) {
-        // Check if the user pressed Enter and the input is not empty
-        if (e.key === 'Enter' && this.value.trim() !== '') {
-            const messageText = this.value.trim();
-            
-            // Create a new message div
-            const newMsg = document.createElement('div');
-            newMsg.className = 'chat-msg';
-            
-            // Assuming the logged-in user is "Kurt" based on your schema
-            newMsg.innerHTML = `<b>Kurt:</b> ${messageText}`;
-            
-            // Append it to the chat area
-            chatArea.appendChild(newMsg);
-            
-            // Clear the input field
-            this.value = '';
-            
-            // Automatically scroll down to see the new message
-            chatArea.scrollTop = chatArea.scrollHeight;
-        }
-    });
-}
 
 // ==========================================
 // INITIALIZE PAGE
