@@ -1,6 +1,6 @@
 import { CampusaurusAPI } from '/api.js';
+import { showToast } from '/toast.js';
 
-// Show/Hide the specific zone input based on dropdown selection
 const categorySelect = document.getElementById('category');
 const specificZoneContainer = document.getElementById('specific-zone-container');
 const specificZoneLabel = document.getElementById('specificZoneLabel');
@@ -20,7 +20,6 @@ if (categorySelect) {
     });
 }
 
-// Handle Form Submission
 const createForm = document.getElementById('create-post-form');
 if (createForm) {
     createForm.addEventListener('submit', async (e) => {
@@ -41,24 +40,16 @@ if (createForm) {
 
         try {
             if (categoryId === 'announcement') {
-                await CampusaurusAPI.announcements.create({
-                    title: title,
-                    body: content 
-                });
-                alert("Amber Alert Broadcasted Successfully!");
-                window.location.href = "../announcements/"; 
+                await CampusaurusAPI.announcements.create({ title, body: content });
+                showToast("Amber Alert broadcasted successfully!", 'success');
+                setTimeout(() => { window.location.href = "../announcements/"; }, 1200);
             } else {
-                await CampusaurusAPI.posts.create({
-                    title: title,
-                    content: content,
-                    categoryId: categoryId
-                });
-                alert("Discovery logged successfully!");
-                window.location.href = "../index/"; 
+                await CampusaurusAPI.posts.create({ title, content, categoryId });
+                showToast("Discovery logged successfully!", 'success');
+                setTimeout(() => { window.location.href = "../index/"; }, 1200);
             }
         } catch (error) {
-            console.error(error);
-            alert("Failed to log discovery. System error: " + error.message);
+            showToast(error.message || "Failed to log discovery.", 'error');
         } finally {
             submitBtn.innerText = "PUBLISH RECORD";
             submitBtn.disabled = false;

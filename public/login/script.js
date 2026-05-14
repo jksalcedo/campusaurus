@@ -1,4 +1,5 @@
 import { CampusaurusAPI } from '/api.js';
+import { showToast } from '/toast.js';
 
 const loginForm = document.getElementById('login-form');
 
@@ -16,12 +17,10 @@ if (loginForm) {
         try {
             const user = await CampusaurusAPI.auth.login(email, password);
             if (user) {
-                // Success! Redirect to profile or home
                 window.location.href = "/profile/index.html";
             }
         } catch (error) {
-            console.error(error);
-            alert("Security clearance failed: " + error.message);
+            showToast(error.message || "Login failed. Check your credentials.", 'error');
         } finally {
             submitBtn.innerText = "AUTHORIZE ACCESS";
             submitBtn.disabled = false;

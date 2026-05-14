@@ -1,8 +1,8 @@
 import { CampusaurusAPI } from '/api.js';
+import { showToast } from '/toast.js';
 
 let chosenEmoji = '🦖';
 
-// Handle Avatar Selection
 window.selectAvatar = function(emoji, element) {
     document.querySelectorAll('.avatar-option').forEach(opt => opt.classList.remove('avatar-selected'));
     element.classList.add('avatar-selected');
@@ -29,24 +29,21 @@ if (registerForm) {
         submitBtn.disabled = true;
 
         try {
-            // 1. Register with all details
             await CampusaurusAPI.auth.register(email, password, username, {
                 age: parseInt(age),
-                gender: gender,
-                dept: dept,
-                yearLevel: yearLevel,
+                gender,
+                dept,
+                yearLevel,
                 avatarUrl: chosenEmoji
             });
 
-            // 2. Login immediately
             const user = await CampusaurusAPI.auth.login(email, password);
             if (user) {
-                alert("Account established! Welcome to the excavation team.");
-                window.location.href = "/profile/index.html";
+                showToast("Account established! Welcome to the excavation team.", 'success');
+                setTimeout(() => { window.location.href = "/profile/index.html"; }, 1200);
             }
         } catch (error) {
-            console.error(error);
-            alert("Identity creation failed: " + error.message);
+            showToast(error.message || "Identity creation failed.", 'error');
         } finally {
             submitBtn.innerText = "ESTABLISH IDENTITY";
             submitBtn.disabled = false;
