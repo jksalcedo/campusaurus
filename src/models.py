@@ -14,6 +14,9 @@ class User(db.Model):
     bio = db.Column(db.Text, nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+    def is_admin(self):
+        return Admin.query.filter_by(email=self.email).first() is not None
+
     def to_dict(self):
         return {
             'id': self.id,
@@ -22,8 +25,19 @@ class User(db.Model):
             'avatar_url': self.avatar_url,
             'avatarUrl': self.avatar_url,
             'bio': self.bio,
+            'is_admin': self.is_admin(),
+            'isAdmin': self.is_admin(),
             'created_at': self.created_at.isoformat() if self.created_at else None,
             'createdAt': self.created_at.isoformat() if self.created_at else None
+        }
+
+class Admin(db.Model):
+    __tablename__ = 'admins'
+    email = db.Column(db.String(255), primary_key=True)
+
+    def to_dict(self):
+        return {
+            'email': self.email
         }
 
 class Announcement(db.Model):
