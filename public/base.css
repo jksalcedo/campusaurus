@@ -4,6 +4,7 @@
 :root {
     --font-heading: 'Oswald', sans-serif;
     --font-body: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --container-width: 1200px;
     
     --bg-deep-jungle: #161c16;
     --bg-foliage: #222d22;
