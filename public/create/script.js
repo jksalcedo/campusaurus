@@ -36,7 +36,8 @@ if (createForm) {
         const content = document.getElementById('content').value;
 
         if ((categoryId === 'island' || categoryId === 'nest') && specificZone) {
-            categoryId = `${categoryId}:${specificZone}`;
+            // Simplify to just the ID so it matches the navigation URLs
+            categoryId = specificZone;
         }
 
         try {

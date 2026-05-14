@@ -4,12 +4,18 @@
 async function loadPosts() {
     const container = document.getElementById('feed-container');
     const urlParams = new URLSearchParams(window.location.search);
+    
+    // Support multiple param names for flexibility
     const nestId = urlParams.get('nest');
+    const islandId = urlParams.get('island');
+    const categoryId = urlParams.get('categoryId') || urlParams.get('category');
+    
+    const targetId = nestId || islandId || categoryId;
 
     let apiUrl = '/api/posts';
-    if (nestId) {
-        apiUrl += `?categoryId=${nestId}`;
-        document.getElementById('feed-title').innerText = `Viewing: ${nestId}`;
+    if (targetId) {
+        apiUrl += `?categoryId=${encodeURIComponent(targetId)}`;
+        document.getElementById('feed-title').innerText = `Viewing: ${targetId}`;
     }
 
     try {
