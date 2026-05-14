@@ -1,19 +1,16 @@
-h1, h2, h3, .logo-text, .side-title, .create-btn, .section-title {
+h1,
+h2,
+h3,
+.logo-text,
+.side-title,
+.create-btn,
+.section-title {
     font-family: var(--font-heading);
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
 /* NAVBAR */
-
-
-
-
-
-
-
-
-
 
 .create-btn:hover {
     background: var(--amber-hover);
@@ -45,7 +42,57 @@ h1, h2, h3, .logo-text, .side-title, .create-btn, .section-title {
 .feed {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 24px;
+}
+
+.feed-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.feed-search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.feed-search input,
+.feed-search select {
+    background: var(--bg-deep-jungle);
+    border: 1px solid var(--border-moss);
+    color: var(--text-light);
+    padding: 10px 12px;
+    border-radius: 8px;
+    min-width: 200px;
+    font-size: 14px;
+}
+
+.feed-search input:focus,
+.feed-search select:focus {
+    outline: none;
+    border-color: var(--amber-accent);
+    box-shadow: 0 0 0 2px rgba(229, 169, 61, 0.2);
+}
+
+.post-card mark {
+    background: rgba(229, 169, 61, 0.25);
+    color: var(--text-light);
+    padding: 0 2px;
+    border-radius: 3px;
+}
+
+@media (max-width: 720px) {
+    .feed-search {
+        width: 100%;
+    }
+
+    .feed-search input {
+        width: 100%;
+    }
 }
 
 .post-card {
@@ -55,7 +102,7 @@ h1, h2, h3, .logo-text, .side-title, .create-btn, .section-title {
     padding: 25px;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .post-card:hover {
@@ -116,7 +163,7 @@ h1, h2, h3, .logo-text, .side-title, .create-btn, .section-title {
     border: 1px solid var(--border-moss);
     border-radius: 8px;
     padding: 20px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .side-title {
@@ -196,23 +243,27 @@ h1, h2, h3, .logo-text, .side-title, .create-btn, .section-title {
    NEW: EDIT MODAL STYLES
    ========================================= */
 .modal {
-    display: none; 
-    position: fixed; 
-    top: 0; left: 0; width: 100%; height: 100%; 
-    background: rgba(0,0,0,0.85); 
-    z-index: 1000; 
-    align-items: center; justify-content: center; 
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
     backdrop-filter: blur(4px);
 }
 
 .modal-content {
-    background: var(--bg-card); 
-    padding: 30px; 
-    border-radius: 12px; 
-    width: 500px; 
+    background: var(--bg-card);
+    padding: 30px;
+    border-radius: 12px;
+    width: 500px;
     max-width: 90%;
-    border: 1px solid var(--border-moss); 
-    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    border: 1px solid var(--border-moss);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
 }
 
 .modal-content h2 {
