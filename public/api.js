@@ -39,11 +39,20 @@ async function requestJson(path, options = {}) {
     });
 
     if (!res.ok) {
-        const text = await res.text().catch(() => "");
-        throw new ApiError(
-            res.status,
-            `Request failed: ${res.status} ${res.statusText}${text ? ` - ${text}` : ""}`
-        );
+        let errorMessage = `Request failed: ${res.status} ${res.statusText}`;
+        try {
+            const errorData = await res.json();
+            if (errorData && errorData.error) {
+                errorMessage = errorData.error;
+            } else if (errorData && errorData.message) {
+                errorMessage = errorData.message;
+            }
+        } catch (e) {
+            // Not JSON, try text
+            const text = await res.text().catch(() => "");
+            if (text) errorMessage += ` - ${text}`;
+        }
+        throw new ApiError(res.status, errorMessage);
     }
 
     // 204 No Content => return null
@@ -55,11 +64,20 @@ async function requestJson(path, options = {}) {
 async function requestText(path, options = {}) {
     const res = await fetch(url(path), options);
     if (!res.ok) {
-        const text = await res.text().catch(() => "");
-        throw new ApiError(
-            res.status,
-            `Request failed: ${res.status} ${res.statusText}${text ? ` - ${text}` : ""}`
-        );
+        let errorMessage = `Request failed: ${res.status} ${res.statusText}`;
+        try {
+            const errorData = await res.json();
+            if (errorData && errorData.error) {
+                errorMessage = errorData.error;
+            } else if (errorData && errorData.message) {
+                errorMessage = errorData.message;
+            }
+        } catch (e) {
+            // Not JSON, try text
+            const text = await res.text().catch(() => "");
+            if (text) errorMessage += ` - ${text}`;
+        }
+        throw new ApiError(res.status, errorMessage);
     }
     return res.text();
 }

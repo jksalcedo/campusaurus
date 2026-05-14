@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register | Campusaurus</title>
+    <link rel="stylesheet" href="/base.css">
+    <link rel="stylesheet" href="/create/style.css">
+</head>
+<body>
+<nav>
+    <div class="logo-text">Campusaurus🦖</div>
+    <a href="/index.html">Base Camp</a>
+    <a href="/announcements/index.html">Announcements</a>
+    <a href="/islands/index.html">Islands</a>
+    <a href="/profile/index.html" style="margin-left: auto;">My Profile</a>
+    <a href="/create/index.html" class="create-btn">Log Discovery</a>
+</nav>
+
+<div class="container">
+    <div class="form-card" style="max-width: 450px; margin: 40px auto;">
+        <div class="form-header">
+            <h1>Create Identity</h1>
+            <p style="color: var(--text-muted); font-size: 14px;">Join the excavation team.</p>
+        </div>
+        
+        <form id="register-form">
+            <div class="form-group">
+                <label for="username">CAMPUS IDENTITY (USERNAME)</label>
+                <input type="text" id="username" placeholder="ExplorerName" required
+                       style="width: 100%; background: var(--bg-deep-jungle); border: 2px solid var(--border-moss); color: var(--text-light); padding: 14px; border-radius: 8px; box-sizing: border-box;">
+            </div>
+
+            <div class="form-group">
+                <label for="email">CAMPUS EMAIL</label>
+                <input type="email" id="email" placeholder="explorer@cspc.edu.ph" required
+                       style="width: 100%; background: var(--bg-deep-jungle); border: 2px solid var(--border-moss); color: var(--text-light); padding: 14px; border-radius: 8px; box-sizing: border-box;">
+            </div>
+
+            <div class="form-group">
+                <label for="password">SECURITY CLEARANCE (PASSWORD)</label>
+                <input type="password" id="password" placeholder="••••••••" required
+                       style="width: 100%; background: var(--bg-deep-jungle); border: 2px solid var(--border-moss); color: var(--text-light); padding: 14px; border-radius: 8px; box-sizing: border-box;">
+            </div>
+
+            <button type="submit" class="btn-submit" id="submit-btn">ESTABLISH IDENTITY</button>
+        </form>
+
+        <div style="margin-top: 25px; text-align: center; border-top: 1px solid var(--border-moss); padding-top: 20px;">
+            <p style="color: var(--text-muted); font-size: 14px;">
+                Already a member? <a href="/login/index.html" style="color: var(--amber-accent); text-decoration: none; font-weight: bold;">Login to Nest</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<script type="module" src="/register/script.js"></script>
+
+</body>
+</html>
