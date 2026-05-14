@@ -19,8 +19,10 @@ class User(db.Model):
             'id': self.id,
             'username': self.username,
             'email': self.email,
+            'avatar_url': self.avatar_url,
             'avatarUrl': self.avatar_url,
             'bio': self.bio,
+            'created_at': self.created_at.isoformat() if self.created_at else None,
             'createdAt': self.created_at.isoformat() if self.created_at else None
         }
 
@@ -38,6 +40,9 @@ class Announcement(db.Model):
             'id': self.id,
             'title': self.title,
             'body': self.body,
+            'author_id': self.author_id,
+            'authorId': self.author_id,
+            'created_at': self.created_at.isoformat() if self.created_at else None,
             'createdAt': self.created_at.isoformat() if self.created_at else None
         }
 
@@ -56,10 +61,13 @@ class Post(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
+            'category_id': self.category_id,
             'categoryId': self.category_id,
             'title': self.title,
             'content': self.content,
+            'author_id': self.author_id,
             'authorId': self.author_id,
+            'created_at': self.created_at.isoformat() if self.created_at else None,
             'createdAt': self.created_at.isoformat() if self.created_at else None,
             'likes': self.likes,
             'comments': self.comments
@@ -78,12 +86,16 @@ class Nest(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
+            'island_id': self.island_id,
             'islandId': self.island_id,
             'name': self.name,
             'description': self.description,
+            'creator_id': self.creator_id,
             'creatorId': self.creator_id,
+            'created_at': self.created_at.isoformat() if self.created_at else None,
             'createdAt': self.created_at.isoformat() if self.created_at else None
         }
+
 class ChatMessage(db.Model):
     __tablename__ = 'chat_messages'
     
@@ -95,7 +107,9 @@ class ChatMessage(db.Model):
     def to_dict(self):
         return {
             "id": self.id,
+            "user_id": self.user_id,
             "userId": self.user_id,
             "message": self.message,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
             "createdAt": self.created_at.isoformat() if self.created_at else None
         }

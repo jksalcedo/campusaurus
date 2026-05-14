@@ -23,7 +23,8 @@ from .nests_store import (
     list_nests,
     create_nest,
     update_nest,
-    delete_nest
+    delete_nest,
+    get_island_stats
 )
 
 from .chat_store import get_recent_messages, create_message
@@ -340,7 +341,16 @@ def list_nests_route():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.route("/api/islands/<island_id>/nests", methods=["GET"])
+def list_island_nests_route(island_id):
+    try:
+        nests = list_nests(island_id)
+        return jsonify({"nests": nests})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 @app.route("/api/nests", methods=["POST"])
+@app.route("/api/islands/nests", methods=["POST"])
 def create_nest_route():
     island_id = as_non_empty_string(request.json.get("islandId", ""))
     name = as_non_empty_string(request.json.get("name", ""))
@@ -380,6 +390,17 @@ def delete_nest_route(nest_id):
         if not success:
             return jsonify({"error": "not found"}), 404
         return "", 204
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+# ==========================================
+# ISLANDS ROUTES
+# ==========================================
+@app.route("/api/islands/stats", methods=["GET"])
+def get_islands_stats_route():
+    try:
+        stats = get_island_stats()
+        return jsonify({"stats": stats})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 

@@ -1,6 +1,7 @@
 from .models import Nest, db
 from typing import Optional, Dict, Any, List
 import uuid
+from sqlalchemy import func
 
 def list_nests(island_id: Optional[str] = None) -> List[Dict[str, Any]]:
     query = Nest.query
@@ -21,7 +22,6 @@ def create_nest(data: Dict[str, Any]) -> Dict[str, Any]:
         island_id=data.get("islandId"),
         name=name,
         description=data.get("description"),
-        # Removed "student1", now uses the passed ID
         creator_id=data.get("creatorId") 
     )
     db.session.add(nest)
@@ -47,3 +47,7 @@ def delete_nest(nest_id: str) -> bool:
     db.session.delete(nest)
     db.session.commit()
     return True
+
+def get_island_stats() -> Dict[str, int]:
+    results = db.session.query(Nest.island_id, func.count(Nest.id)).group_by(Nest.island_id).all()
+    return {island_id: count for island_id, count in results}
