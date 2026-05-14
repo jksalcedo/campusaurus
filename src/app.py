@@ -18,7 +18,7 @@ from .posts_store import (
     delete_post
 )
 from .database import db, init_db
-from .models import User, Post
+from .models import User, Post, Comment
 from .nests_store import (
     list_nests,
     create_nest,
@@ -28,6 +28,18 @@ from .nests_store import (
 )
 
 from .chat_store import get_recent_messages, create_message
+
+
+def require_login_user():
+    user_id = session.get("user_id")
+    if not user_id:
+        return None, (jsonify({"error": "not logged in"}), 401)
+
+    user = User.query.get(user_id)
+    if not user:
+        return None, (jsonify({"error": "user not found"}), 404)
+
+    return user, None
 
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 public_path = os.path.join(project_root, "public")
@@ -201,6 +213,48 @@ def get_post_route(post_id):
         return jsonify(item)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+@app.route("/api/posts/<post_id>/comments", methods=["GET"])
+def list_post_comments_route(post_id):
+    try:
+        post = Post.query.get(post_id)
+        if not post:
+            return jsonify({"error": "not found"}), 404
+
+        comments = Comment.query.filter_by(post_id=post_id).order_by(Comment.created_at.asc()).all()
+        return jsonify({"comments": [comment.to_dict() for comment in comments]})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/posts/<post_id>/comments", methods=["POST"])
+def create_post_comment_route(post_id):
+    content = as_non_empty_string(request.json.get("content", ""))
+    if not content:
+        return jsonify({"error": "content is required"}), 400
+
+    try:
+        user, error = require_login_user()
+        if error:
+            return error
+
+        post = Post.query.get(post_id)
+        if not post:
+            return jsonify({"error": "not found"}), 404
+
+        comment = Comment(
+            post_id=post_id,
+            author_id=user.id,
+            content=content
+        )
+        db.session.add(comment)
+        post.comments = (post.comments or 0) + 1
+        db.session.commit()
+        return jsonify(comment.to_dict()), 201
+    except Exception as e:
+        traceback.print_exc()
+        return jsonify({"error": str(e)}), 500
+
 
 @app.route("/api/posts/<post_id>", methods=["PATCH"])
 def update_post_route(post_id):

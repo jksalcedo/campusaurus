@@ -23,6 +23,7 @@ class User(db.Model):
     announcements = db.relationship('Announcement', backref='author', lazy=True)
     nests = db.relationship('Nest', backref='creator', lazy=True)
     chat_messages = db.relationship('ChatMessage', backref='user', lazy=True)
+    comments = db.relationship('Comment', backref='author', lazy=True)
 
     def is_admin(self):
         try:
@@ -135,9 +136,32 @@ class Nest(db.Model):
             'createdAt': self.created_at.isoformat() if self.created_at else None
         }
 
+class Comment(db.Model):
+    __tablename__ = 'comments'
+
+    id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    post_id = db.Column(db.String(36), db.ForeignKey('posts.id'), nullable=False)
+    author_id = db.Column(db.String(255), db.ForeignKey('users.id'), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'post_id': self.post_id,
+            'postId': self.post_id,
+            'author_id': self.author_id,
+            'authorId': self.author_id,
+            'author_username': self.author.username if self.author else "Explorer",
+            'authorUsername': self.author.username if self.author else "Explorer",
+            'content': self.content,
+            'created_at': self.created_at.isoformat() if self.created_at else None,
+            'createdAt': self.created_at.isoformat() if self.created_at else None
+        }
+
 class ChatMessage(db.Model):
     __tablename__ = 'chat_messages'
-    
+
     id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     user_id = db.Column(db.String(50), db.ForeignKey('users.id'), nullable=False, default='student1')
     message = db.Column(db.Text, nullable=False)
