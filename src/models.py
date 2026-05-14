@@ -2,6 +2,7 @@ from .database import db
 from datetime import datetime
 import uuid
 
+
 class User(db.Model):
     __tablename__ = 'users'
 
@@ -82,4 +83,19 @@ class Nest(db.Model):
             'description': self.description,
             'creatorId': self.creator_id,
             'createdAt': self.created_at.isoformat() if self.created_at else None
+        }
+class ChatMessage(db.Model):
+    __tablename__ = 'chat_messages'
+    
+    id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    user_id = db.Column(db.String(50), db.ForeignKey('users.id'), nullable=False, default='student1')
+    message = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "userId": self.user_id,
+            "message": self.message,
+            "createdAt": self.created_at.isoformat() if self.created_at else None
         }

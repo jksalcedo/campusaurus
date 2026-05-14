@@ -12,7 +12,6 @@ def list_nests(island_id: Optional[str] = None) -> List[Dict[str, Any]]:
     return [nest.to_dict() for nest in nests]
 
 def create_nest(data: Dict[str, Any]) -> Dict[str, Any]:
-    # Ensure nest name starts with "n/"
     name = data.get("name", "")
     if not name.startswith("n/"):
         name = "n/" + name
@@ -22,7 +21,8 @@ def create_nest(data: Dict[str, Any]) -> Dict[str, Any]:
         island_id=data.get("islandId"),
         name=name,
         description=data.get("description"),
-        creator_id="student1" # Default until auth is built
+        # Removed "student1", now uses the passed ID
+        creator_id=data.get("creatorId") 
     )
     db.session.add(nest)
     db.session.commit()
