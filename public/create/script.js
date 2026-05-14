@@ -79,6 +79,10 @@ if (createForm) {
     const specificZone = document.getElementById("specificZone").value;
     const title = document.getElementById("title").value;
     const content = document.getElementById("content").value;
+        if ((categoryId === 'island' || categoryId === 'nest') && specificZone) {
+            // Simplify to just the ID so it matches the navigation URLs
+            categoryId = specificZone;
+        }
 
     if (categoryId === "nest") {
       if (urlNestId) {
