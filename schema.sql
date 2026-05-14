@@ -15,6 +15,12 @@ CREATE TABLE IF NOT EXISTS users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Admins table (Privilege Registry)
+-- Users with emails in this table are granted admin rights
+CREATE TABLE IF NOT EXISTS admins (
+    email VARCHAR(255) PRIMARY KEY
+);
+
 -- Announcements table
 CREATE TABLE IF NOT EXISTS announcements (
     id VARCHAR(36) PRIMARY KEY DEFAULT (UUID()),
@@ -35,6 +41,9 @@ CREATE TABLE IF NOT EXISTS posts (
     likes INT DEFAULT 0,
     comments INT DEFAULT 0
 );
+
+-- Insert Admin Whitelist
+INSERT INTO admins (email) VALUES ('kurtaquino49@gmail.com');
 
 -- Insert some sample data
 INSERT INTO announcements (title, body, author_id) VALUES
