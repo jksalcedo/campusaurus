@@ -18,6 +18,13 @@ class User(db.Model):
     year_level = db.Column(db.String(50), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+    # Relationships
+    posts = db.relationship('Post', backref='author', lazy=True)
+    announcements = db.relationship('Announcement', backref='author', lazy=True)
+    nests = db.relationship('Nest', backref='creator', lazy=True)
+    chat_messages = db.relationship('ChatMessage', backref='user', lazy=True)
+    comments = db.relationship('Comment', backref='author', lazy=True)
+
     def is_admin(self):
         try:
             return Admin.query.filter_by(email=self.email).first() is not None
@@ -59,7 +66,7 @@ class Announcement(db.Model):
     id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     title = db.Column(db.String(255), nullable=False)
     body = db.Column(db.Text, nullable=False)
-    author_id = db.Column(db.String(255), nullable=True)
+    author_id = db.Column(db.String(255), db.ForeignKey('users.id'), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     def to_dict(self):
@@ -69,6 +76,8 @@ class Announcement(db.Model):
             'body': self.body,
             'author_id': self.author_id,
             'authorId': self.author_id,
+            'author_username': self.author.username if self.author else "Admin",
+            'authorUsername': self.author.username if self.author else "Admin",
             'created_at': self.created_at.isoformat() if self.created_at else None,
             'createdAt': self.created_at.isoformat() if self.created_at else None
         }
@@ -80,7 +89,7 @@ class Post(db.Model):
     category_id = db.Column(db.String(255), nullable=False)
     title = db.Column(db.String(255), nullable=False)
     content = db.Column(db.Text, nullable=True)
-    author_id = db.Column(db.String(255), nullable=False, default='Kurt')
+    author_id = db.Column(db.String(255), db.ForeignKey('users.id'), nullable=False, default='Kurt')
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     likes = db.Column(db.Integer, default=0)
     comments = db.Column(db.Integer, default=0)
@@ -94,6 +103,8 @@ class Post(db.Model):
             'content': self.content,
             'author_id': self.author_id,
             'authorId': self.author_id,
+            'author_username': self.author.username if self.author else "Explorer",
+            'authorUsername': self.author.username if self.author else "Explorer",
             'created_at': self.created_at.isoformat() if self.created_at else None,
             'createdAt': self.created_at.isoformat() if self.created_at else None,
             'likes': self.likes,
@@ -107,7 +118,7 @@ class Nest(db.Model):
     island_id = db.Column(db.String(255), nullable=False)
     name = db.Column(db.String(255), nullable=False)
     description = db.Column(db.Text, nullable=True)
-    creator_id = db.Column(db.String(255), nullable=False)
+    creator_id = db.Column(db.String(255), db.ForeignKey('users.id'), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     def to_dict(self):
@@ -119,13 +130,38 @@ class Nest(db.Model):
             'description': self.description,
             'creator_id': self.creator_id,
             'creatorId': self.creator_id,
+            'creator_username': self.creator.username if self.creator else "Student",
+            'creatorUsername': self.creator.username if self.creator else "Student",
+            'created_at': self.created_at.isoformat() if self.created_at else None,
+            'createdAt': self.created_at.isoformat() if self.created_at else None
+        }
+
+class Comment(db.Model):
+    __tablename__ = 'comments'
+
+    id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    post_id = db.Column(db.String(36), db.ForeignKey('posts.id'), nullable=False)
+    author_id = db.Column(db.String(255), db.ForeignKey('users.id'), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'post_id': self.post_id,
+            'postId': self.post_id,
+            'author_id': self.author_id,
+            'authorId': self.author_id,
+            'author_username': self.author.username if self.author else "Explorer",
+            'authorUsername': self.author.username if self.author else "Explorer",
+            'content': self.content,
             'created_at': self.created_at.isoformat() if self.created_at else None,
             'createdAt': self.created_at.isoformat() if self.created_at else None
         }
 
 class ChatMessage(db.Model):
     __tablename__ = 'chat_messages'
-    
+
     id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     user_id = db.Column(db.String(50), db.ForeignKey('users.id'), nullable=False, default='student1')
     message = db.Column(db.Text, nullable=False)
@@ -136,6 +172,7 @@ class ChatMessage(db.Model):
             "id": self.id,
             "user_id": self.user_id,
             "userId": self.user_id,
+            "username": self.user.username if self.user else "Student",
             "message": self.message,
             "created_at": self.created_at.isoformat() if self.created_at else None,
             "createdAt": self.created_at.isoformat() if self.created_at else None

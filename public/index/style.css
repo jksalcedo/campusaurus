@@ -1,19 +1,16 @@
-h1, h2, h3, .logo-text, .side-title, .create-btn, .section-title {
+h1,
+h2,
+h3,
+.logo-text,
+.side-title,
+.create-btn,
+.section-title {
     font-family: var(--font-heading);
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
 /* NAVBAR */
-
-
-
-
-
-
-
-
-
 
 .create-btn:hover {
     background: var(--amber-hover);
@@ -24,13 +21,14 @@ h1, h2, h3, .logo-text, .side-title, .create-btn, .section-title {
 /* MAIN LAYOUT */
 .container {
     display: grid;
-    grid-template-columns: 1fr 320px;
+    grid-template-columns: minmax(0, 1fr) 320px;
     gap: 30px;
     padding: 40px 20px;
-    max-width: 1200px;
+    max-width: var(--container-width);
     margin: 0 auto;
     width: 100%;
     box-sizing: border-box;
+    align-items: start;
 }
 
 .section-title {
@@ -45,7 +43,57 @@ h1, h2, h3, .logo-text, .side-title, .create-btn, .section-title {
 .feed {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 24px;
+}
+
+.feed-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.feed-search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.feed-search input,
+.feed-search select {
+    background: var(--bg-deep-jungle);
+    border: 1px solid var(--border-moss);
+    color: var(--text-light);
+    padding: 10px 12px;
+    border-radius: 8px;
+    min-width: 200px;
+    font-size: 14px;
+}
+
+.feed-search input:focus,
+.feed-search select:focus {
+    outline: none;
+    border-color: var(--amber-accent);
+    box-shadow: 0 0 0 2px rgba(229, 169, 61, 0.2);
+}
+
+.post-card mark {
+    background: rgba(229, 169, 61, 0.25);
+    color: var(--text-light);
+    padding: 0 2px;
+    border-radius: 3px;
+}
+
+@media (max-width: 720px) {
+    .feed-search {
+        width: 100%;
+    }
+
+    .feed-search input {
+        width: 100%;
+    }
 }
 
 .post-card {
@@ -55,7 +103,80 @@ h1, h2, h3, .logo-text, .side-title, .create-btn, .section-title {
     padding: 25px;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+/* KEBAB MENU */
+.post-menu {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+}
+
+.post-menu-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: color 0.2s, background 0.2s;
+}
+
+.post-menu-btn:hover {
+    color: var(--text-light);
+    background: rgba(255,255,255,0.06);
+}
+
+.post-menu-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    background: #1e2d1e;
+    border: 1px solid var(--border-moss);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    min-width: 130px;
+    z-index: 100;
+    overflow: hidden;
+}
+
+.post-menu-dropdown.open {
+    display: block;
+    animation: fadeIn 0.12s ease;
+}
+
+.post-menu-dropdown button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 10px 16px;
+    background: none;
+    border: none;
+    color: var(--text-light);
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.post-menu-dropdown button:hover {
+    background: rgba(255,255,255,0.06);
+}
+
+.post-menu-dropdown button.danger {
+    color: #e05555;
+}
+
+.post-menu-dropdown button.danger:hover {
+    background: rgba(224, 85, 85, 0.1);
+}
+
+.post-card + .post-card {
+    margin-top: 24px;
 }
 
 .post-card:hover {
@@ -109,6 +230,21 @@ h1, h2, h3, .logo-text, .side-title, .create-btn, .section-title {
     display: flex;
     flex-direction: column;
     gap: 25px;
+    position: sticky;
+    top: 20px;
+    height: fit-content;
+}
+
+@media (max-width: 1024px) {
+    .container {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        padding: 28px 16px;
+    }
+
+    .sidebar {
+        position: static;
+    }
 }
 
 .side-box {
@@ -116,7 +252,7 @@ h1, h2, h3, .logo-text, .side-title, .create-btn, .section-title {
     border: 1px solid var(--border-moss);
     border-radius: 8px;
     padding: 20px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .side-title {
@@ -196,23 +332,27 @@ h1, h2, h3, .logo-text, .side-title, .create-btn, .section-title {
    NEW: EDIT MODAL STYLES
    ========================================= */
 .modal {
-    display: none; 
-    position: fixed; 
-    top: 0; left: 0; width: 100%; height: 100%; 
-    background: rgba(0,0,0,0.85); 
-    z-index: 1000; 
-    align-items: center; justify-content: center; 
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
     backdrop-filter: blur(4px);
 }
 
 .modal-content {
-    background: var(--bg-card); 
-    padding: 30px; 
-    border-radius: 12px; 
-    width: 500px; 
+    background: var(--bg-card);
+    padding: 30px;
+    border-radius: 12px;
+    width: 500px;
     max-width: 90%;
-    border: 1px solid var(--border-moss); 
-    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    border: 1px solid var(--border-moss);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
 }
 
 .modal-content h2 {
@@ -258,4 +398,131 @@ h1, h2, h3, .logo-text, .side-title, .create-btn, .section-title {
 
 .btn-save:hover {
     background: var(--amber-hover);
+}
+
+/* =========================================
+   COMMENTS SECTION
+   ========================================= */
+.comment-toggle-btn {
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+}
+
+.comment-toggle-btn:hover {
+    color: var(--amber-accent);
+    border-color: var(--amber-accent);
+}
+
+.comments-section {
+    margin-top: 18px;
+    border-top: 1px solid var(--border-moss);
+    padding-top: 16px;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.comment-item {
+    background: #1a221a;
+    border: 1px solid var(--border-moss);
+    border-radius: 6px;
+    padding: 10px 14px;
+}
+
+.comment-author {
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--amber-accent);
+    margin-bottom: 4px;
+}
+
+.comment-body {
+    font-size: 14px;
+    color: #cfd7cc;
+    line-height: 1.5;
+}
+
+.comment-time {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 5px;
+}
+
+.comments-empty,
+.comments-loading,
+.comments-error {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-style: italic;
+    margin: 0;
+}
+
+.comments-error { color: #d94a4a; }
+
+.comment-input-row {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin-top: 8px;
+}
+
+.comment-textarea {
+    flex: 1;
+    background: var(--bg-deep-jungle);
+    border: 1px solid var(--border-moss);
+    color: var(--text-light);
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    resize: vertical;
+    transition: border-color 0.2s;
+}
+
+.comment-textarea:focus {
+    outline: none;
+    border-color: var(--amber-accent);
+}
+
+.comment-submit-btn {
+    background: var(--amber-accent);
+    color: var(--bg-deep-jungle);
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background 0.2s, transform 0.1s;
+    white-space: nowrap;
+}
+
+.comment-submit-btn:hover {
+    background: var(--amber-hover);
+    transform: translateY(-1px);
+}
+
+.comments-login-hint {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 8px 0 0;
+}
+
+.comments-login-hint a {
+    color: var(--amber-accent);
+    text-decoration: none;
+}
+
+.comments-login-hint a:hover {
+    text-decoration: underline;
 }

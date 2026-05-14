@@ -1,6 +1,17 @@
 import { CampusaurusAPI } from '/api.js';
 import { showToast } from '/toast.js';
 
+// Redirect if already logged in
+async function checkAuth() {
+    try {
+        const user = await CampusaurusAPI.me();
+        if (user) {
+            window.location.href = "/profile/index.html";
+        }
+    } catch (err) {}
+}
+checkAuth();
+
 let chosenEmoji = '🦖';
 
 window.selectAvatar = function(emoji, element) {
