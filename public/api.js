@@ -171,8 +171,8 @@ export const CampusaurusAPI = {
         getComments(id) {
             return requestJson(`/api/posts/${encodeURIComponent(id)}/comments`);
         },
-        addComment(id, text) {
-            return requestJson(`/api/posts/${encodeURIComponent(id)}/comments`, { method: "POST", body: JSON.stringify({ text }) });
+        addComment(id, content) {
+            return requestJson(`/api/posts/${encodeURIComponent(id)}/comments`, { method: "POST", body: JSON.stringify({ content }) });
         }
     },
 

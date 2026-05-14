@@ -63,6 +63,17 @@ CREATE TABLE IF NOT EXISTS chat_messages (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Comments table
+CREATE TABLE IF NOT EXISTS comments (
+    id VARCHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    post_id VARCHAR(36) NOT NULL,
+    author_id VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
+    FOREIGN KEY (author_id) REFERENCES users(id)
+);
+
 -- Insert Admin Whitelist
 INSERT INTO admins (email) VALUES ('kurtaquino49@gmail.com');
 
