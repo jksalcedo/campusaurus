@@ -12,15 +12,16 @@
     <a href="/index.html">Base Camp</a>
     <a href="/announcements/index.html">Announcements</a>
     <a href="/islands/index.html">Islands</a>
-    <a href="/profile/index.html" style="margin-left: auto;" class="active">My Profile</a>
+    <div id="nav-auth-section" style="margin-left: auto; display: flex; align-items: center;">
+        <a href="/login/index.html" style="text-decoration: none; color: var(--text-light); font-weight: bold;">Login</a>
+        <a href="/register/index.html" style="text-decoration: none; color: var(--amber-accent); font-weight: bold; margin-left: 10px;">Register</a>
+    </div>
     <a href="/create/index.html" class="create-btn">Log Discovery</a>
 </nav>
 <div class="breadcrumbs"><a href="/index.html">Base Camp</a> / <span>My Profile</span></div>
 <div class="container">
 
-
-
-
+    <!-- This is the inner auth/join section, separate from navbar -->
     <div id="auth-section" class="auth-box">
         <h2>Join the Archipelago</h2>
         <p>Pick your species and join your Island.</p>
@@ -103,6 +104,7 @@
 </div>
 
 <script type="module" src="/profile/script.js"></script>
+<script type="module" src="/nav.js"></script>
 
 </body>
 </html>

@@ -12,13 +12,13 @@
     <a href="/index.html">Base Camp</a>
     <a href="/announcements/index.html">Announcements</a>
     <a href="/islands/index.html">Islands</a>
-    <a href="/profile/index.html" style="margin-left: auto;">My Profile</a>
+    <div id="nav-auth-section" style="margin-left: auto; display: flex; align-items: center;">
+        <a href="/login/index.html" style="text-decoration: none; color: var(--text-light); font-weight: bold;">Login</a>
+        <a href="/register/index.html" style="text-decoration: none; color: var(--amber-accent); font-weight: bold; margin-left: 10px;">Register</a>
+    </div>
     <a href="/create/index.html" class="create-btn">Log Discovery</a>
 </nav>
 <div class="breadcrumbs"><a href="/index.html">Base Camp</a> / <span>Log Discovery</span></div>
-
-
-
 
 <div class="container">
     <a href="/index.html" class="back-link">← Return to Base Camp</a>
@@ -29,7 +29,6 @@
         </div>
         
         <form id="create-post-form">
-            
             <div class="form-group">
                 <label for="category">EXCAVATION ZONE (SCOPE)</label>
                 <select id="category" required>
@@ -63,18 +62,6 @@
 
 <script type="module" src="/create/script.js"></script>
 <script type="module" src="/nav.js"></script>
-
-</body>
-</html>
-ptional)"></textarea>
-            </div>
-
-            <button type="submit" class="btn-submit" id="submit-btn">PUBLISH RECORD</button>
-        </form>
-    </div>
-</div>
-
-<script type="module" src="/create/script.js"></script>
 
 </body>
 </html>
