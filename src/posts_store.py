@@ -1,7 +1,6 @@
 from .models import Post, db
 from typing import Optional, Dict, Any, List
 
-# Added category_id parameter back in!
 def list_posts(category_id: Optional[str] = None) -> List[Dict[str, Any]]:
     query = Post.query
     if category_id:
@@ -14,23 +13,7 @@ def create_post(data: Dict[str, Any]) -> Dict[str, Any]:
     category_id = data.get("categoryId")
     title = data.get("title")
     content = data.get("content")
-    # Now defaults to whatever app.py sends!
     author_id = data.get("authorId") 
-
-    post = Post(category_id=category_id, title=title, content=content, author_id=author_id)
-    db.session.add(post)
-    db.session.commit()
-    return post.to_dict()
-
-def list_posts() -> List[Dict[str, Any]]:
-    posts = Post.query.order_by(Post.created_at.desc()).all()
-    return [post.to_dict() for post in posts]
-
-def create_post(data: Dict[str, Any]) -> Dict[str, Any]:
-    category_id = data.get("categoryId")
-    title = data.get("title")
-    content = data.get("content")
-    author_id = data.get("authorId", "Kurt")
 
     post = Post(category_id=category_id, title=title, content=content, author_id=author_id)
     db.session.add(post)
