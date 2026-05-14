@@ -1,4 +1,4 @@
-h1, h2, 
+h1, h2,
 
 /* Navbar */
 
@@ -7,39 +7,77 @@ h1, h2,
 
 
 /* Main Container */
-.container { max-width: 800px; margin: 40px auto; padding: 0 20px; width: 100%; box-sizing: border-box; }
-.back-link { color: var(--text-muted); text-decoration: none; display: inline-block; margin-bottom: 20px; font-weight: bold; transition: color 0.2s; }
-.back-link:hover { color: var(--amber-accent); }
-
-.form-card { 
-    background: var(--bg-card); 
-    padding: 40px; 
-    border-radius: 12px; 
-    border: 1px solid var(--border-moss); 
-    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+.container {
+    max-width: var(--container-width);
+    margin: 40px auto;
+    padding: 0 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+.back-link {
+    color: var(--text-muted);
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 20px;
+    font-weight: bold;
+    transition: color 0.2s;
+}
+.back-link:hover {
+    color: var(--amber-accent);
 }
 
-.form-header { border-bottom: 2px solid var(--border-moss); padding-bottom: 15px; margin-bottom: 30px; }
-.form-header h1 { font-size: 28px; color: var(--amber-accent); }
+.form-card {
+    background: var(--bg-card);
+    padding: 40px;
+    border-radius: 12px;
+    border: 1px solid var(--border-moss);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.form-header {
+    border-bottom: 2px solid var(--border-moss);
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+}
+.form-header h1 {
+    font-size: 28px;
+    color: var(--amber-accent);
+}
 
 /* Inputs */
-.form-group { margin-bottom: 25px; }
-label { display: block; margin-bottom: 8px; font-size: 13px; color: var(--text-muted); font-weight: bold; letter-spacing: 1px; text-transform: uppercase; }
+.form-group {
+    margin-bottom: 25px;
+}
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
 
-input[type="text"], textarea, select { 
-    width: 100%; 
-    background: var(--bg-deep-jungle); 
-    border: 2px solid var(--border-moss); 
-    color: var(--text-light); 
+input[type="text"],
+textarea,
+select {
+    width: 100%;
+    background: var(--bg-deep-jungle);
+    border: 2px solid var(--border-moss);
+    color: var(--text-light);
     font-size: 16px;
-    padding: 14px; 
-    border-radius: 8px; 
-    box-sizing: border-box; 
+    padding: 14px;
+    border-radius: 8px;
+    box-sizing: border-box;
     font-family: inherit;
     transition: all 0.3s ease;
 }
 
-input:focus, textarea:focus, select:focus {
+input:focus,
+textarea:focus,
+select:focus {
     outline: none;
     border-color: var(--amber-accent);
     box-shadow: 0 0 10px rgba(229, 169, 61, 0.2);
@@ -47,21 +85,36 @@ input:focus, textarea:focus, select:focus {
 }
 
 /* Submit Button */
-.btn-submit { 
-    background: var(--amber-accent); 
-    color: var(--bg-deep-jungle); 
-    border: none; 
-    padding: 14px 30px; 
-    font-weight: bold; 
+.btn-submit {
+    background: var(--amber-accent);
+    color: var(--bg-deep-jungle);
+    border: none;
+    padding: 14px 30px;
+    font-weight: bold;
     font-size: 16px;
     font-family: var(--font-heading);
-    border-radius: 6px; 
-    cursor: pointer; 
+    border-radius: 6px;
+    cursor: pointer;
     transition: all 0.2s;
     width: 100%;
     letter-spacing: 1px;
     text-transform: uppercase;
 }
 
-.btn-submit:hover { background: var(--amber-hover); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(229, 169, 61, 0.3); }
-.btn-submit:disabled { background: var(--text-muted); cursor: not-allowed; transform: none; box-shadow: none; }
+.btn-submit:hover {
+    background: var(--amber-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(229, 169, 61, 0.3);
+}
+.btn-submit:disabled {
+    background: var(--text-muted);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+@media (max-width: 720px) {
+    .form-card {
+        padding: 24px;
+    }
+}

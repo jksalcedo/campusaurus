@@ -1,31 +1,179 @@
-.island-header { background: #d3f53a; padding: 50px 20px; text-align: center; border-bottom: 1px solid #343536; }
-        .container { max-width: 800px; margin: 20px auto; padding: 0 20px; }
+.island-header {
+    background: linear-gradient(135deg, #2b3a2b 0%, #223022 100%);
+    padding: 60px 20px;
+    text-align: center;
+    border-bottom: 1px solid var(--border-moss);
+}
 
-        /* Nest Card */
-        .nest-card { 
-            background: #272729; border: 1px solid #343536; padding: 20px; 
-            border-radius: 8px; margin-bottom: 15px; display: flex; 
-            justify-content: space-between; align-items: center;
-            text-decoration: none; color: inherit; transition: 0.2s;
-        }
-        .nest-card:hover { border-color: #818384; background: #2d2d30; transform: scale(1.01); }
+.island-title {
+    margin: 0;
+    color: var(--text-light);
+    font-size: 28px;
+    letter-spacing: 1px;
+}
 
-        .nest-info h3 { margin: 0; color: #ff4500; font-family: monospace; } 
-        .nest-info p { margin: 5px 0 0 0; font-size: 14px; color: #818384; }
-        
-        .visit-btn { background: #4bb543; color: white; padding: 8px 20px; border-radius: 20px; font-weight: bold; font-size: 12px; }
-        
-        /* Build Nest Button */
-        .create-nest-trigger { 
-            border: 2px dashed #343536; padding: 30px; text-align: center; 
-            border-radius: 8px; color: #818384; cursor: pointer; transition: 0.3s;
-            margin-bottom: 30px;
-        }
-        .create-nest-trigger:hover { border-color: #4bb543; color: #d7dadc; background: #1d2a1d; }
+.island-subtitle {
+    margin: 10px 0 0 0;
+    color: var(--text-muted);
+    font-size: 14px;
+}
 
-        /* Modal Background */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; align-items: center; justify-content: center; }
-        .modal-content { background: #272729; padding: 30px; border-radius: 12px; width: 450px; border: 1px solid #343536; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
-        
-        input, textarea { width: 100%; padding: 12px; margin: 10px 0; background: #1a1a1b; border: 1px solid #343536; color: white; border-radius: 6px; box-sizing: border-box; }
-        .form-btn { padding: 10px 25px; border-radius: 6px; border: none; cursor: pointer; font-weight: bold; }
+.container {
+    max-width: var(--container-width);
+    margin: 20px auto;
+    padding: 0 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+@media (max-width: 720px) {
+    .island-header {
+        padding: 40px 16px;
+    }
+
+    .nest-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+}
+
+/* Nest Card */
+.nest-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-moss);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    transition: 0.2s;
+}
+
+.nest-card:hover {
+    border-color: var(--amber-accent);
+    background: #2f3b2f;
+    transform: translateY(-2px);
+}
+
+.nest-info h3 {
+    margin: 0;
+    color: var(--amber-accent);
+    font-family: var(--font-heading);
+    letter-spacing: 0.5px;
+}
+
+.nest-info p {
+    margin: 6px 0 0 0;
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.visit-btn {
+    background: var(--official-green);
+    color: #ffffff;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+/* Build Nest Button */
+.create-nest-trigger {
+    border: 2px dashed var(--border-moss);
+    padding: 30px;
+    text-align: center;
+    border-radius: 8px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: 0.3s;
+    margin-bottom: 30px;
+    background: var(--bg-foliage);
+}
+
+.create-nest-trigger:hover {
+    border-color: var(--official-green);
+    color: var(--text-light);
+    background: #1f2a1f;
+}
+
+.create-nest-trigger-title {
+    display: block;
+    font-weight: bold;
+    margin-top: 6px;
+}
+
+.create-nest-trigger-subtitle {
+    display: block;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+/* Modal Background */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: var(--bg-card);
+    padding: 30px;
+    border-radius: 12px;
+    width: 450px;
+    border: 1px solid var(--border-moss);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+.modal-title {
+    margin: 0 0 6px 0;
+    color: var(--text-light);
+}
+
+.modal-subtitle {
+    margin: 0 0 14px 0;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    background: var(--bg-deep-jungle);
+    border: 1px solid var(--border-moss);
+    color: var(--text-light);
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.form-btn {
+    padding: 10px 25px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.form-btn.cancel {
+    background: transparent;
+    color: var(--text-muted);
+}
+
+.form-btn.primary {
+    background: var(--official-green);
+    color: #ffffff;
+}
