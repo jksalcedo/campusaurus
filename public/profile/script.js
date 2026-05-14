@@ -32,25 +32,27 @@
         const username = document.getElementById('username').value;
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
-        const bio = `Department: ${document.getElementById('dept').value}, Year: ${document.getElementById('year').value}`;
+        const age = document.getElementById('age').value;
+        const gender = document.getElementById('gender').value;
+        const dept = document.getElementById('dept').value;
+        const yearLevel = document.getElementById('year').value;
 
         try {
             submitBtn.innerText = "Processing...";
             submitBtn.disabled = true;
 
-            // 1. Register user
-            await CampusaurusAPI.auth.register(email, password, username);
+            // 1. Register user with ALL fields
+            await CampusaurusAPI.auth.register(email, password, username, {
+                age: parseInt(age),
+                gender: gender,
+                dept: dept,
+                yearLevel: yearLevel,
+                avatarUrl: chosenEmoji
+            });
             
             // 2. Login immediately
             const loginData = await CampusaurusAPI.auth.login(email, password);
             
-            // 3. Save the chosen dino and bio details to the profile
-            await CampusaurusAPI.profile.update({ 
-                username: username,
-                bio: bio,
-                avatarUrl: chosenEmoji 
-            });
-
             updateProfileUI(loginData);
             alert("Account created! Welcome to the Archipelago.");
 
@@ -69,11 +71,11 @@
         document.getElementById('display-email').innerText = userData.email || "";
         
         // Use saved avatar if available, otherwise use current selection
-        document.getElementById('display-dino').innerText = userData.avatarUrl || chosenEmoji;
+        document.getElementById('display-dino').innerText = userData.avatarUrl || userData.avatar_url || chosenEmoji;
         
-        // Pull dept/year from inputs for now as a fallback
-        document.getElementById('display-dept').innerText = document.getElementById('dept').value;
-        document.getElementById('display-year').innerText = document.getElementById('year').value;
+        // Pull dept/year from userData
+        document.getElementById('display-dept').innerText = userData.dept || "Explorer";
+        document.getElementById('display-year').innerText = userData.yearLevel || userData.year_level || "";
 
         // Update stats from the API
         document.getElementById('stat-wordle').innerText = `Total Wordle Wins: ${wordleStats.totalWins}`;

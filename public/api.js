@@ -99,8 +99,11 @@ export const CampusaurusAPI = {
 
     // --- Auth ---
     auth: {
-        register(email, password, username) {
-            return requestJson("/api/auth/register", { method: "POST", body: JSON.stringify({ email, password, username }) });
+        register(email, password, username, extraData = {}) {
+            return requestJson("/api/auth/register", { 
+                method: "POST", 
+                body: JSON.stringify({ email, password, username, ...extraData }) 
+            });
         },
         login(email, password) {
             return requestJson("/api/auth/login", { method: "POST", body: JSON.stringify({ email, password }) });
