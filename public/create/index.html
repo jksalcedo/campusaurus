@@ -1,67 +1,154 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Log Discovery | Campusaurus</title>
-    <link rel="stylesheet" href="/base.css">
-    <link rel="stylesheet" href="/create/style.css">
-</head>
-<body>
-<nav>
-    <div class="logo-text">Campusaurus🦖</div>
-    <a href="/index.html">Base Camp</a>
-    <a href="/announcements/index.html">Announcements</a>
-    <a href="/islands/index.html">Islands</a>
-    <div id="nav-auth-section" style="margin-left: auto; display: flex; align-items: center;">
-        <a href="/login/index.html" style="text-decoration: none; color: var(--text-light); font-weight: bold;">Login</a>
-        <a href="/register/index.html" style="text-decoration: none; color: var(--amber-accent); font-weight: bold; margin-left: 10px;">Register</a>
-    </div>
-    <a href="/create/index.html" class="create-btn">Log Discovery</a>
-</nav>
-<div class="breadcrumbs"><a href="/index.html">Base Camp</a> / <span>Log Discovery</span></div>
-
-<div class="container">
-    <a href="/index.html" class="back-link">← Return to Base Camp</a>
-
-    <div class="form-card">
-        <div class="form-header">
-            <h1>Log New Discovery</h1>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Log Discovery | Campusaurus</title>
+        <link rel="stylesheet" href="/base.css" />
+        <link rel="stylesheet" href="/create/style.css" />
+    </head>
+    <body>
+        <nav>
+            <div class="logo-text">Campusaurus🦖</div>
+            <a href="/index.html">Base Camp</a>
+            <a href="/announcements/index.html">Announcements</a>
+            <a href="/islands/index.html">Islands</a>
+            <div
+                id="nav-auth-section"
+                style="margin-left: auto; display: flex; align-items: center"
+            >
+                <a
+                    href="/login/index.html"
+                    style="
+                        text-decoration: none;
+                        color: var(--text-light);
+                        font-weight: bold;
+                    "
+                    >Login</a
+                >
+                <a
+                    href="/register/index.html"
+                    style="
+                        text-decoration: none;
+                        color: var(--amber-accent);
+                        font-weight: bold;
+                        margin-left: 10px;
+                    "
+                    >Register</a
+                >
+            </div>
+            <a href="/create/index.html" class="create-btn">Log Discovery</a>
+        </nav>
+        <div class="breadcrumbs">
+            <a href="/index.html">Base Camp</a> / <span>Log Discovery</span>
         </div>
-        
-        <form id="create-post-form">
-            <div class="form-group">
-                <label for="category">EXCAVATION ZONE (SCOPE)</label>
-                <select id="category" required>
-                    <option value="world">🌍 Pangaea (World - All CSPC)</option>
-                    <option value="island">🏝️ Island (Department Level)</option>
-                    <option value="nest">🪹 Nest (Class/Community Level)</option>
-                    <option value="hunt">🍖 The Hunt (Looking For...)</option>
-                    <option value="announcement">📢 Amber Alert (Announcement)</option>
-                </select>
+
+        <div class="container">
+            <a href="/index.html" class="back-link">← Return to Base Camp</a>
+
+            <div class="form-card">
+                <div class="form-header">
+                    <h1>Log New Discovery</h1>
+                </div>
+
+                <form id="create-post-form">
+                    <div class="form-group">
+                        <label for="category">EXCAVATION ZONE (SCOPE)</label>
+                        <select id="category" required>
+                            <option value="world">
+                                🌍 Pangaea (World - All CSPC)
+                            </option>
+                            <option value="island">
+                                🏝️ Island (Department Level)
+                            </option>
+                            <option value="nest">
+                                🪹 Nest (Class/Community Level)
+                            </option>
+                            <option value="hunt">
+                                🍖 The Hunt (Looking For...)
+                            </option>
+                            <option value="announcement">
+                                📢 Amber Alert (Announcement)
+                            </option>
+                        </select>
+                    </div>
+
+                    <div
+                        class="form-group"
+                        id="specific-zone-container"
+                        style="display: none"
+                    >
+                        <label for="islandSelect" id="specificZoneLabel"
+                            >CHOOSE ISLAND</label
+                        >
+                        <select id="islandSelect">
+                            <option value="">Select an island</option>
+                            <option value="ccs">CCS Island</option>
+                            <option value="cea">CEA Island</option>
+                            <option value="chs">CHS Island</option>
+                            <option value="cthbm">CTHBM Island</option>
+                            <option value="ctde">CTDE Island</option>
+                            <option value="cas">CAS Island</option>
+                        </select>
+                    </div>
+
+                    <div id="nest-picker-container" style="display: none">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nestIsland">CHOOSE ISLAND</label>
+                                <select id="nestIsland">
+                                    <option value="">Select an island</option>
+                                    <option value="ccs">CCS Island</option>
+                                    <option value="cea">CEA Island</option>
+                                    <option value="chs">CHS Island</option>
+                                    <option value="cthbm">CTHBM Island</option>
+                                    <option value="ctde">CTDE Island</option>
+                                    <option value="cas">CAS Island</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="nestSearch">SEARCH NEST</label>
+                                <input
+                                    type="text"
+                                    id="nestSearch"
+                                    placeholder="Type to filter nests"
+                                />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="nestSelect">CHOOSE NEST</label>
+                            <select id="nestSelect" disabled>
+                                <option value="">Select an island first</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="title">SPECIMEN LOG (TITLE)</label>
+                        <input
+                            type="text"
+                            id="title"
+                            placeholder="What did you unearth today?"
+                            required
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="content">FIELD NOTES (CONTENT)</label>
+                        <textarea
+                            id="content"
+                            rows="8"
+                            placeholder="Detail your findings... (optional)"
+                        ></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit" id="submit-btn">
+                        PUBLISH RECORD
+                    </button>
+                </form>
             </div>
+        </div>
 
-            <div class="form-group" id="specific-zone-container" style="display: none;">
-                <label for="specificZone" id="specificZoneLabel">SPECIFIC ZONE NAME</label>
-                <input type="text" id="specificZone" placeholder="e.g., CCS Island or n/ProjectDino">
-            </div>
-
-            <div class="form-group">
-                <label for="title">SPECIMEN LOG (TITLE)</label>
-                <input type="text" id="title" placeholder="What did you unearth today?" required>
-            </div>
-
-            <div class="form-group">
-                <label for="content">FIELD NOTES (CONTENT)</label>
-                <textarea id="content" rows="8" placeholder="Detail your findings... (optional)"></textarea>
-            </div>
-
-            <button type="submit" class="btn-submit" id="submit-btn">PUBLISH RECORD</button>
-        </form>
-    </div>
-</div>
-
-<script type="module" src="/create/script.js"></script>
-<script type="module" src="/nav.js"></script>
-
-</body>
+        <script type="module" src="/create/script.js"></script>
+        <script type="module" src="/nav.js"></script>
+    </body>
 </html>
