@@ -23,35 +23,14 @@ function canEditPost(post, user) {
   return isAdmin || authorId === user.id;
 }
 
-function escapeHtml(value) {
-  return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
-
-function escapeRegex(value) {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
-
-function highlightMatch(text, query) {
-  const safeText = escapeHtml(text || "");
-  if (!query) return safeText;
-  const pattern = new RegExp(escapeRegex(query), "gi");
-  return safeText.replace(pattern, (match) => `<mark>${match}</mark>`);
-}
-
 async function loadNestNameCache() {
-  if (nestNameCache && nestIslandMap) return nestNameCache;
+  if (nestNameCache) return nestNameCache;
   try {
     const response = await fetch("/api/nests");
     if (!response.ok) return null;
     const data = await response.json();
     if (!data.nests || data.nests.length === 0) return null;
     nestNameCache = new Map(data.nests.map((nest) => [nest.id, nest.name]));
-    nestIslandMap = new Map(data.nests.map((nest) => [nest.id, nest.islandId]));
     return nestNameCache;
   } catch (error) {
     return null;
@@ -73,64 +52,54 @@ function resolveCategoryLabel(categoryId) {
   return categoryId;
 }
 
-function getIslandForPost(post) {
-  const categoryId = post.category_id || "";
-  if (categoryId.startsWith("island:")) {
-    return categoryId.split(":")[1] || "";
-  }
-  if (nestIslandMap && nestIslandMap.has(categoryId)) {
-    return nestIslandMap.get(categoryId) || "";
-  }
-  return "";
-}
-
-function getAuthorName(post) {
-  return (
-    post.authorUsername ||
-    post.author_username ||
-    post.author ||
-    post.author_id ||
-    "Explorer"
-  );
-}
-
-function renderPosts(posts, query = "") {
+async function loadPosts() {
   const container = document.getElementById("feed-container");
-  if (!container) return;
+  const urlParams = new URLSearchParams(window.location.search);
+  const nestId = urlParams.get("nest");
 
-  if (posts.length === 0) {
-    container.innerHTML = query
-      ? `<p style="color: var(--text-muted); font-style: italic;">No posts match "${escapeHtml(query)}".</p>`
-      : `<p style="color: var(--text-muted); font-style: italic;">No discoveries have been logged yet.</p>`;
-    return;
+  let apiUrl = "/api/posts";
+  if (nestId) {
+    apiUrl += `?categoryId=${nestId}`;
+    const nestName = await resolveNestName(nestId);
+    document.getElementById("feed-title").innerText = nestName
+      ? `Viewing: ${nestName}`
+      : `Viewing: ${nestId}`;
+  } else {
+    await loadNestNameCache();
   }
 
-  container.innerHTML = posts
-    .map((post) => {
-      const authorName = getAuthorName(post);
-      const showActions = canEditPost(post, currentUser);
-      const actionsHtml = showActions
-        ? `
+  try {
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+
+    if (data.posts && data.posts.length > 0) {
+      container.innerHTML = data.posts
+        .map((post) => {
+          const authorName =
+            post.authorUsername ||
+            post.author_username ||
+            post.author ||
+            post.author_id ||
+            "Explorer";
+          const showActions = canEditPost(post, currentUser);
+          const actionsHtml = showActions
+            ? `
                         <button onclick="openEditModal('${post.id}')" style="background:transparent; border:none; color:var(--amber-accent); cursor:pointer; font-weight:bold;">[ Edit ]</button>
                         <button onclick="deletePost('${post.id}')" style="background:transparent; border:none; color:#d94a4a; cursor:pointer; font-weight:bold;">[ Delete ]</button>
                 `
-        : "";
+            : "";
 
-      const categoryLabel = resolveCategoryLabel(post.category_id);
-      const highlightedTitle = highlightMatch(post.title || "", query);
-      const highlightedContent = highlightMatch(post.content || "", query);
-      const highlightedAuthor = highlightMatch(authorName, query);
-      const highlightedCategory = highlightMatch(categoryLabel, query);
+          const categoryLabel = resolveCategoryLabel(post.category_id);
 
-      return `
+          return `
                 <div class="post-card" id="post-${post.id}">
                     <div class="post-meta">
-                        Posted by <span>${highlightedAuthor}</span> •
+                        Posted by <span>${authorName}</span> •
                         ${new Date(post.created_at || post.createdAt).toLocaleDateString()}
-                        ${categoryLabel ? ` in <b>${highlightedCategory}</b>` : ""}
+                        ${categoryLabel ? ` in <b>${categoryLabel}</b>` : ""}
                     </div>
-                    <h2 class="post-title" id="title-${post.id}">${highlightedTitle}</h2>
-                    <p class="post-content" id="content-${post.id}">${highlightedContent}</p>
+                    <h2 class="post-title" id="title-${post.id}">${post.title}</h2>
+                    <p class="post-content" id="content-${post.id}">${post.content || ""}</p>
 
                     <div class="post-stats">
                         <span class="stat-btn">💬 ${post.comments || 0} Comments</span>
@@ -201,6 +170,13 @@ async function loadPosts() {
     if (container) {
       container.innerHTML = `<p style="color: #d94a4a;">Signal lost. Could not fetch posts.</p>`;
     }
+        })
+        .join("");
+    } else {
+      container.innerHTML = `<p style="color: var(--text-muted); font-style: italic;">No discoveries have been logged yet.</p>`;
+    }
+  } catch (error) {
+    container.innerHTML = `<p style="color: #d94a4a;">Signal lost. Could not fetch posts.</p>`;
   }
 }
 
@@ -331,9 +307,6 @@ function setupLiveChat() {
 // 2. LIVE CHAT LOGIC
 // ==========================================
 
-// ==========================================
-// INITIALIZE PAGE
-// ==========================================
 async function initPage() {
   currentUser = await loadCurrentUser();
   await loadPosts();

@@ -18,7 +18,7 @@ from .posts_store import (
     delete_post
 )
 from .database import db, init_db
-from .models import User
+from .models import User, Post
 from .nests_store import (
     list_nests,
     create_nest,
@@ -47,9 +47,9 @@ def as_non_empty_string(v):
 def get_current_user_id():
     """Returns the logged-in user, or safely falls back if not logged in."""
     uid = session.get("user_id")
-    if uid: 
+    if uid:
         return uid
-    
+
     # Safety Net: If the users table has an issue, this prevents Flask from crashing
     try:
         first_user = User.query.first()
@@ -74,7 +74,7 @@ def serve_static_or_index(path):
             return app.send_static_file(path)
         except:
             return app.send_static_file("index/index.html"), 404
-    
+
     # Otherwise, try to serve index.html from that directory
     if path.endswith('/'):
         path = path.rstrip('/')
@@ -108,7 +108,7 @@ def create_announcement_route():
     try:
         # ADDED: Pass the authorId
         item = create_announcement({
-            "title": title, 
+            "title": title,
             "body": body,
             "authorId": get_current_user_id()
         })
@@ -182,8 +182,8 @@ def create_post_route():
     try:
         # ADDED: Inject dynamic authorId
         item = create_post({
-            "categoryId": category_id, 
-            "title": title, 
+            "categoryId": category_id,
+            "title": title,
             "content": content,
             "authorId": get_current_user_id()
         })
@@ -222,9 +222,22 @@ def update_post_route(post_id):
         patch["content"] = as_non_empty_string(request.json["content"])
 
     try:
-        updated = update_post(post_id, patch)
-        if not updated:
+        user_id = session.get("user_id")
+        if not user_id:
+            return jsonify({"error": "not logged in"}), 401
+
+        user = User.query.get(user_id)
+        if not user:
+            return jsonify({"error": "user not found"}), 404
+
+        post = Post.query.get(post_id)
+        if not post:
             return jsonify({"error": "not found"}), 404
+
+        if not user.is_admin() and post.author_id != user.id:
+            return jsonify({"error": "forbidden"}), 403
+
+        updated = update_post(post_id, patch)
         return jsonify(updated)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -232,6 +245,21 @@ def update_post_route(post_id):
 @app.route("/api/posts/<post_id>", methods=["DELETE"])
 def delete_post_route(post_id):
     try:
+        user_id = session.get("user_id")
+        if not user_id:
+            return jsonify({"error": "not logged in"}), 401
+
+        user = User.query.get(user_id)
+        if not user:
+            return jsonify({"error": "user not found"}), 404
+
+        post = Post.query.get(post_id)
+        if not post:
+            return jsonify({"error": "not found"}), 404
+
+        if not user.is_admin() and post.author_id != user.id:
+            return jsonify({"error": "forbidden"}), 403
+
         delete_post(post_id)
         return "", 204
     except Exception as e:
@@ -244,7 +272,7 @@ def register():
     username = as_non_empty_string(data.get("username"))
     email = as_non_empty_string(data.get("email"))
     password = as_non_empty_string(data.get("password"))
-    
+
     # Extra fields
     age = data.get("age")
     gender = as_non_empty_string(data.get("gender"))
@@ -257,7 +285,7 @@ def register():
 
     if User.query.filter_by(username=username).first():
         return jsonify({"error": "username already exists"}), 400
-    
+
     if User.query.filter_by(email=email).first():
         return jsonify({"error": "email already exists"}), 400
 
@@ -299,11 +327,11 @@ def get_me():
     user_id = session.get("user_id")
     if not user_id:
         return jsonify({"error": "not logged in"}), 401
-    
+
     user = User.query.get(user_id)
     if not user:
         return jsonify({"error": "user not found"}), 404
-    
+
     return jsonify(user.to_dict())
 
 @app.route("/api/profile", methods=["GET", "PATCH"])
@@ -311,14 +339,14 @@ def profile():
     user_id = session.get("user_id")
     if not user_id:
         return jsonify({"error": "not logged in"}), 401
-    
+
     user = User.query.get(user_id)
     if not user:
         return jsonify({"error": "user not found"}), 404
 
     if request.method == "GET":
         return jsonify(user.to_dict())
-    
+
     data = request.json
     if "username" in data:
         user.username = as_non_empty_string(data["username"])
@@ -334,7 +362,7 @@ def profile():
         user.dept = as_non_empty_string(data["dept"])
     if "yearLevel" in data or "year_level" in data:
         user.year_level = as_non_empty_string(data.get("yearLevel") or data.get("year_level"))
-    
+
     db.session.commit()
     return jsonify(user.to_dict())
 
@@ -382,8 +410,8 @@ def create_nest_route():
     try:
         # ADDED: Inject dynamic creatorId
         item = create_nest({
-            "islandId": island_id, 
-            "name": name, 
+            "islandId": island_id,
+            "name": name,
             "description": description,
             "creatorId": get_current_user_id()
         })
@@ -438,7 +466,7 @@ def get_chat_route():
 @app.route("/api/chat", methods=["POST"])
 def post_chat_route():
     msg_text = as_non_empty_string(request.json.get("message", ""))
-    
+
     if not msg_text:
         return jsonify({"error": "Message cannot be empty"}), 400
 

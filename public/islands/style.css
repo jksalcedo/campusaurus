@@ -1,80 +1,123 @@
 /* =========================================
            1. GLOBAL DESIGN SYSTEM (CSS Variables)
            ========================================= */
-        
 
-        
-
-        /* =========================================
+/* =========================================
            2. BASE STYLES & LAYOUT
            ========================================= */
-        
-        
-        h1, h2, h3, .logo-text, .island-name {
-            font-family: var(--font-heading);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin: 0;
-        }
 
-        /* NAVBAR */
-        
-        
-        
-        
-        
-        
-        .create-btn:hover { background: var(--amber-hover); transform: translateY(-2px); }
+h1,
+h2,
+h3,
+.logo-text,
+.island-name {
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0;
+}
 
-        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; width: 100%; box-sizing: border-box; }
-        
-        h1 { text-align: center; margin-bottom: 30px; font-size: var(--text-h1); color: var(--text-light); }
+/* NAVBAR */
 
-        /* =========================================
+.create-btn:hover {
+    background: var(--amber-hover);
+    transform: translateY(-2px);
+}
+
+.container {
+    max-width: var(--container-width);
+    margin: 40px auto;
+    padding: 0 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+@media (max-width: 720px) {
+    h1 {
+        font-size: 26px;
+        margin-bottom: 20px;
+    }
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: var(--text-h1);
+    color: var(--text-light);
+}
+
+/* =========================================
            3. ISLAND GRID SYSTEM
            ========================================= */
-        .island-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-            gap: 25px; 
-        }
+.island-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    align-items: stretch;
+}
 
-        .island-card { 
-            background: var(--bg-foliage); 
-            border: 1px solid var(--border-moss); 
-            border-radius: 8px; 
-            overflow: hidden; 
-            text-decoration: none; 
-            color: inherit; 
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.2s, box-shadow 0.2s;
-            display: flex;
-            flex-direction: column;
-        }
+.island-card {
+    background: var(--bg-foliage);
+    border: 1px solid var(--border-moss);
+    border-radius: 8px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition:
+        transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+        border-color 0.2s,
+        box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    min-height: 260px;
+}
 
-        .island-card:hover { 
-            transform: translateY(-8px); 
-            border-color: var(--amber-accent); 
-            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
-        }
+.island-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--amber-accent);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+}
 
-        .island-banner { 
-            height: 100px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 40px; 
-            border-bottom: 2px solid rgba(0,0,0,0.2);
-        }
+.island-card:focus-visible {
+    outline: 2px solid var(--amber-accent);
+    outline-offset: 2px;
+}
 
-        .island-info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
-        .island-name { font-size: var(--text-h2); color: var(--text-light); margin-bottom: 8px; }
-        .island-desc { color: var(--text-muted); font-size: var(--text-small); line-height: 1.5; flex-grow: 1; }
-        
-        .nest-count { 
-            margin-top: 20px; 
-            font-size: var(--text-micro); 
-            font-weight: bold; 
-            color: var(--official-green); 
-            text-transform: uppercase; 
-            letter-spacing: 1px;
-        }
+.island-banner {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+    letter-spacing: 1px;
+}
+
+.island-info {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.island-name {
+    font-size: var(--text-h2);
+    color: var(--text-light);
+    margin-bottom: 0;
+}
+.island-desc {
+    color: var(--text-muted);
+    font-size: var(--text-small);
+    line-height: 1.5;
+    flex-grow: 1;
+    margin: 0;
+}
+
+.nest-count {
+    margin-top: auto;
+    font-size: var(--text-micro);
+    font-weight: bold;
+    color: var(--official-green);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}

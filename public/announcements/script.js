@@ -22,7 +22,7 @@ function renderAnnouncements(el, announcements) {
 
     el.className = '';
     el.innerHTML = announcements.map(a => {
-        const author = escapeHtml(a.author ?? 'Admin');
+        const author = escapeHtml(a.authorUsername || a.author_username || a.author || 'Admin');
         const title = escapeHtml(a.title ?? 'Announcement');
         // If API returns body instead of content, we handle both just in case
         const content = escapeHtml(a.body || a.content || ''); 
