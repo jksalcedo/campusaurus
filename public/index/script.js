@@ -109,11 +109,14 @@ function renderPosts(posts, query = "") {
     .map((post) => {
       const authorName = getAuthorName(post);
       const showActions = canEditPost(post, currentUser);
-      const actionsHtml = showActions
-        ? `
-                        <button onclick="openEditModal('${post.id}')" style="background:transparent; border:none; color:var(--amber-accent); cursor:pointer; font-weight:bold;">[ Edit ]</button>
-                        <button onclick="deletePost('${post.id}')" style="background:transparent; border:none; color:#d94a4a; cursor:pointer; font-weight:bold;">[ Delete ]</button>
-                `
+      const kebabMenu = showActions
+        ? `<div class="post-menu" id="menu-${post.id}">
+                        <button class="post-menu-btn" onclick="togglePostMenu('${post.id}', event)" aria-label="Post options">&#8942;</button>
+                        <div class="post-menu-dropdown" id="dropdown-${post.id}">
+                            <button onclick="openEditModal('${post.id}'); closeAllMenus()">✏️ Edit</button>
+                            <button class="danger" onclick="deletePost('${post.id}'); closeAllMenus()">🗑️ Delete</button>
+                        </div>
+                    </div>`
         : "";
 
       const categoryLabel = resolveCategoryLabel(post.category_id);
@@ -124,6 +127,7 @@ function renderPosts(posts, query = "") {
 
       return `
                 <div class="post-card" id="post-${post.id}">
+                    ${kebabMenu}
                     <div class="post-meta">
                         Posted by <span>${highlightedAuthor}</span> •
                         ${new Date(post.created_at || post.createdAt).toLocaleDateString()}
@@ -134,7 +138,6 @@ function renderPosts(posts, query = "") {
 
                     <div class="post-stats">
                         <button class="stat-btn comment-toggle-btn" onclick="toggleComments('${post.id}')" id="comment-btn-${post.id}">💬 ${post.comments || 0} Comments</button>
-                        ${actionsHtml}
                     </div>
                     <div class="comments-section" id="comments-${post.id}" style="display:none;"></div>
                 </div>
@@ -206,9 +209,27 @@ async function loadPosts() {
 }
 
 // ==========================================
+// POST KEBAB MENU LOGIC
+// ==========================================
+function togglePostMenu(postId, event) {
+  event.stopPropagation();
+  const dropdown = document.getElementById(`dropdown-${postId}`);
+  const isOpen = dropdown.classList.contains('open');
+  closeAllMenus();
+  if (!isOpen) dropdown.classList.add('open');
+}
+
+function closeAllMenus() {
+  document.querySelectorAll('.post-menu-dropdown.open').forEach(d => d.classList.remove('open'));
+}
+
+document.addEventListener('click', closeAllMenus);
+
+// ==========================================
 // COMMENTS LOGIC
 // ==========================================
 const openCommentPanels = new Set();
+
 
 async function toggleComments(postId) {
   const section = document.getElementById(`comments-${postId}`);
