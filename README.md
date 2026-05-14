@@ -27,8 +27,9 @@ pip install -r requirements.txt
 
 ### 5. Configure Environment Variables
 
-- The `.env` file is already configured with default XAMPP settings
-- Update if you have custom MySQL credentials
+- Create a `.env` file from `.env.example` if you do not already have one
+- Update `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, and `DB_NAME` as needed
+- Make sure MySQL is running in XAMPP and listening on the configured port
 
 ### 6. Run the Application
 
@@ -36,7 +37,7 @@ pip install -r requirements.txt
 python server.py
 ```
 
-The application will be available at http://localhost:3000
+The application will be available at http://localhost:8080
 
 ## API Endpoints
 
