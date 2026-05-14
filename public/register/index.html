@@ -5,6 +5,17 @@
     <title>Register | Campusaurus</title>
     <link rel="stylesheet" href="/base.css">
     <link rel="stylesheet" href="/create/style.css">
+    <style>
+        .avatar-container { display: flex; gap: 10px; margin-bottom: 15px; justify-content: center; }
+        .avatar-option { 
+            font-size: 30px; cursor: pointer; padding: 10px; border-radius: 8px; 
+            border: 2px solid transparent; transition: all 0.2s; 
+        }
+        .avatar-option:hover { background: var(--bg-foliage); }
+        .avatar-selected { border-color: var(--amber-accent); background: var(--bg-foliage); }
+        .form-row { display: flex; gap: 15px; }
+        .form-row .form-group { flex: 1; }
+    </style>
 </head>
 <body>
 <nav>
@@ -20,13 +31,23 @@
 </nav>
 
 <div class="container">
-    <div class="form-card" style="max-width: 450px; margin: 40px auto;">
+    <div class="form-card" style="max-width: 500px; margin: 40px auto;">
         <div class="form-header">
             <h1>Create Identity</h1>
             <p style="color: var(--text-muted); font-size: 14px;">Join the excavation team.</p>
         </div>
         
         <form id="register-form">
+            <label>CHOOSE YOUR SPECIES (AVATAR)</label>
+            <div class="avatar-container">
+                <div class="avatar-option avatar-selected" onclick="selectAvatar('🦖', this)">🦖</div>
+                <div class="avatar-option" onclick="selectAvatar('🦕', this)">🦕</div>
+                <div class="avatar-option" onclick="selectAvatar('🐊', this)">🐊</div>
+                <div class="avatar-option" onclick="selectAvatar('🐢', this)">🐢</div>
+                <div class="avatar-option" onclick="selectAvatar('🦎', this)">🦎</div>
+            </div>
+            <input type="hidden" id="selected-avatar" value="🦖">
+
             <div class="form-group">
                 <label for="username">CAMPUS IDENTITY (USERNAME)</label>
                 <input type="text" id="username" placeholder="ExplorerName" required
@@ -37,6 +58,45 @@
                 <label for="email">CAMPUS EMAIL</label>
                 <input type="email" id="email" placeholder="explorer@cspc.edu.ph" required
                        style="width: 100%; background: var(--bg-deep-jungle); border: 2px solid var(--border-moss); color: var(--text-light); padding: 14px; border-radius: 8px; box-sizing: border-box;">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="age">AGE</label>
+                    <input type="number" id="age" min="16" value="18" required
+                           style="width: 100%; background: var(--bg-deep-jungle); border: 2px solid var(--border-moss); color: var(--text-light); padding: 14px; border-radius: 8px; box-sizing: border-box;">
+                </div>
+                <div class="form-group">
+                    <label for="gender">GENDER</label>
+                    <select id="gender" style="width: 100%; background: var(--bg-deep-jungle); border: 2px solid var(--border-moss); color: var(--text-light); padding: 14px; border-radius: 8px; box-sizing: border-box;">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="dept">ASSIGNED ISLAND</label>
+                    <select id="dept" style="width: 100%; background: var(--bg-deep-jungle); border: 2px solid var(--border-moss); color: var(--text-light); padding: 14px; border-radius: 8px; box-sizing: border-box;">
+                        <option value="CCS">CCS Island</option>
+                        <option value="CEA">CEA Island</option>
+                        <option value="CHS">CHS Island</option>
+                        <option value="CTHBM">CTHBM Island</option>
+                        <option value="CTDE">CTDE Island</option>
+                        <option value="CAS">CAS Island</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="year">YEAR LEVEL</label>
+                    <select id="year" style="width: 100%; background: var(--bg-deep-jungle); border: 2px solid var(--border-moss); color: var(--text-light); padding: 14px; border-radius: 8px; box-sizing: border-box;">
+                        <option value="1st Year">1st Year</option>
+                        <option value="2nd Year">2nd Year</option>
+                        <option value="3rd Year">3rd Year</option>
+                        <option value="4th Year">4th Year</option>
+                    </select>
+                </div>
             </div>
 
             <div class="form-group">
