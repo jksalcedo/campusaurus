@@ -19,9 +19,13 @@ class User(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     def is_admin(self):
-        return Admin.query.filter_by(email=self.email).first() is not None
+        try:
+            return Admin.query.filter_by(email=self.email).first() is not None
+        except:
+            return False
 
     def to_dict(self):
+        is_admin_flag = self.is_admin()
         return {
             'id': self.id,
             'username': self.username,
@@ -34,8 +38,8 @@ class User(db.Model):
             'dept': self.dept,
             'yearLevel': self.year_level,
             'year_level': self.year_level,
-            'is_admin': self.is_admin(),
-            'isAdmin': self.is_admin(),
+            'is_admin': is_admin_flag,
+            'isAdmin': is_admin_flag,
             'created_at': self.created_at.isoformat() if self.created_at else None,
             'createdAt': self.created_at.isoformat() if self.created_at else None
         }
