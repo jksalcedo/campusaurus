@@ -1,6 +1,7 @@
 import os
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import find_dotenv, load_dotenv
+from sqlalchemy import text
 
 load_dotenv(find_dotenv())
 
@@ -22,7 +23,7 @@ db = SQLAlchemy()
 def test_db_connection(app):
     with app.app_context():
         try:
-            db.session.execute("SELECT 1")
+            db.session.execute(text("SELECT 1"))         
             app.logger.info("Database connection successful: %s", SQLALCHEMY_DATABASE_URI)
         except Exception as exc:
             app.logger.error(
