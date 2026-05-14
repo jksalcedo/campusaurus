@@ -1,5 +1,9 @@
 # --- Dependencies / package managers (optional for vanilla sites) ---
 node_modules/
+
+# --- Python ---
+__pycache__/
+*.pyc
 pnpm-lock.yaml
 package-lock.json
 yarn.lock
