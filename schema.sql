@@ -12,11 +12,14 @@ CREATE TABLE IF NOT EXISTS users (
     password_hash VARCHAR(255) NOT NULL,
     avatar_url VARCHAR(255),
     bio TEXT,
+    age INT,
+    gender VARCHAR(50),
+    dept VARCHAR(255),
+    year_level VARCHAR(50),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Admins table (Privilege Registry)
--- Users with emails in this table are granted admin rights
 CREATE TABLE IF NOT EXISTS admins (
     email VARCHAR(255) PRIMARY KEY
 );

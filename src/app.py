@@ -244,6 +244,13 @@ def register():
     username = as_non_empty_string(data.get("username"))
     email = as_non_empty_string(data.get("email"))
     password = as_non_empty_string(data.get("password"))
+    
+    # Extra fields
+    age = data.get("age")
+    gender = as_non_empty_string(data.get("gender"))
+    dept = as_non_empty_string(data.get("dept"))
+    year_level = as_non_empty_string(data.get("yearLevel") or data.get("year_level"))
+    avatar_url = as_non_empty_string(data.get("avatarUrl") or data.get("avatar_url"))
 
     if not username or not email or not password:
         return jsonify({"error": "username, email and password are required"}), 400
@@ -257,7 +264,12 @@ def register():
     user = User(
         username=username,
         email=email,
-        password_hash=generate_password_hash(password)
+        password_hash=generate_password_hash(password),
+        age=age,
+        gender=gender,
+        dept=dept,
+        year_level=year_level,
+        avatar_url=avatar_url
     )
     db.session.add(user)
     db.session.commit()
@@ -314,6 +326,14 @@ def profile():
         user.avatar_url = as_non_empty_string(data["avatarUrl"])
     if "bio" in data:
         user.bio = as_non_empty_string(data["bio"])
+    if "age" in data:
+        user.age = data["age"]
+    if "gender" in data:
+        user.gender = as_non_empty_string(data["gender"])
+    if "dept" in data:
+        user.dept = as_non_empty_string(data["dept"])
+    if "yearLevel" in data or "year_level" in data:
+        user.year_level = as_non_empty_string(data.get("yearLevel") or data.get("year_level"))
     
     db.session.commit()
     return jsonify(user.to_dict())

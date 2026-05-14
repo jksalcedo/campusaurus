@@ -15,7 +15,13 @@ if (registerForm) {
         submitBtn.disabled = true;
 
         try {
-            const user = await CampusaurusAPI.auth.register(email, password, username);
+            const user = await CampusaurusAPI.auth.register(email, password, username, {
+                age: null,
+                gender: "",
+                dept: "",
+                yearLevel: "",
+                avatarUrl: "🦖"
+            });
             if (user) {
                 // Success! Redirect to profile or home
                 window.location.href = "/profile/index.html";

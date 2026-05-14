@@ -12,6 +12,10 @@ class User(db.Model):
     password_hash = db.Column(db.String(255), nullable=False)
     avatar_url = db.Column(db.String(255), nullable=True)
     bio = db.Column(db.Text, nullable=True)
+    age = db.Column(db.Integer, nullable=True)
+    gender = db.Column(db.String(50), nullable=True)
+    dept = db.Column(db.String(255), nullable=True)
+    year_level = db.Column(db.String(50), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     def is_admin(self):
@@ -25,6 +29,11 @@ class User(db.Model):
             'avatar_url': self.avatar_url,
             'avatarUrl': self.avatar_url,
             'bio': self.bio,
+            'age': self.age,
+            'gender': self.gender,
+            'dept': self.dept,
+            'yearLevel': self.year_level,
+            'year_level': self.year_level,
             'is_admin': self.is_admin(),
             'isAdmin': self.is_admin(),
             'created_at': self.created_at.isoformat() if self.created_at else None,
