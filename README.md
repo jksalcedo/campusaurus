@@ -254,13 +254,9 @@ Open http://localhost:8080
 
 | Name | Role | Responsibilities |
 |------|------|-----------------|
-| *(Member 1)* | Project Lead / Backend Developer | Flask routes, database models, API design |
-| *(Member 2)* | Frontend Developer | HTML/CSS pages, JavaScript, UI/UX |
-| *(Member 3)* | Database Administrator | Schema design, ERD, data seeding |
-| *(Member 4)* | Full-Stack Developer | Feature integration, testing, deployment |
-| *(Member 5)* | Documentation | README, diagrams, presentation |
-
-> ⚠️ Replace the placeholders above with actual team member names and roles.
+| Jaressen Kyle Salcedo | Backend Developer | Flask routes, database models, API design |
+| Kurt Rainier Aquino | Frontend Developer | HTML/CSS pages, JavaScript, UI/UX |
+| Chris Jerico Francisco | Frontend Developer | HTML/CSS pages, JavaScript, UI/UX |
 
 ---
 
