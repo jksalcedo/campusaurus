@@ -1,6 +1,10 @@
 import { showToast } from '/toast.js';
 
 // ==========================================
+// 0. UTILITY FUNCTIONS
+// ==========================================
+
+// ==========================================
 // 1. FEED & CRUD LOGIC
 // ==========================================
 let currentUser = null;
@@ -157,12 +161,21 @@ function applySearch() {
 async function loadPosts() {
     const urlParams = new URLSearchParams(window.location.search);
     const nestId = urlParams.get("nest");
+    const islandId = urlParams.get("island");
 
     let apiUrl = "/api/posts";
     if (nestId) {
-        apiUrl += `?categoryId=${nestId}`;
+        apiUrl += `?categoryId=nest:${nestId}`;
         const nestName = await resolveNestName(nestId);
         document.getElementById("feed-title").innerText = nestName ? `Viewing: ${nestName}` : `Viewing: ${nestId}`;
+    } else if (islandId) {
+        apiUrl += `?categoryId=island:${islandId}`;
+        const islandNames = {
+            'ccs': 'CCS Island', 'cea': 'CEA Island', 'chs': 'CHS Island',
+            'cthbm': 'CTHBM Island', 'ctde': 'CTDE Island', 'cas': 'CAS Island'
+        };
+        const islandName = islandNames[islandId] || islandId;
+        document.getElementById("feed-title").innerText = `${islandName} Posts`;
     } else {
         await loadNestNameCache();
     }
@@ -341,6 +354,8 @@ window.submitComment = async function(postId) {
 // ==========================================
 // 2. LIVE CHAT LOGIC
 // ==========================================
+let lastMessageId = null;
+
 async function loadChat() {
     const chatArea = document.getElementById("chat-area");
     const isScrolledToBottom = chatArea.scrollHeight - chatArea.clientHeight <= chatArea.scrollTop + 10;
@@ -350,15 +365,24 @@ async function loadChat() {
         const data = await response.json();
 
         if (data.messages && data.messages.length > 0) {
-            chatArea.innerHTML = data.messages.map(msg =>
-                `<div class="chat-msg"><b>${msg.username || msg.userId}:</b> ${msg.message}</div>`
-            ).join("");
+            // Only update if there are new messages
+            const latestMessage = data.messages[data.messages.length - 1];
+            if (lastMessageId !== latestMessage.id) {
+                chatArea.innerHTML = data.messages.map(msg =>
+                    `<div class="chat-msg"><b>${msg.username || msg.userId}:</b> ${escapeHtml(msg.message)}</div>`
+                ).join("");
 
-            if (isScrolledToBottom) chatArea.scrollTop = chatArea.scrollHeight;
+                lastMessageId = latestMessage.id;
+
+                if (isScrolledToBottom) chatArea.scrollTop = chatArea.scrollHeight;
+            }
         } else {
             chatArea.innerHTML = '<div class="chat-msg"><i>Welcome to Campusaurus! Be the first to roar.</i></div>';
         }
-    } catch { /* silent */ }
+    } catch (error) {
+        console.error('Chat load error:', error);
+        // Don't show error toasts for chat polling failures
+    }
 }
 
 function setupLiveChat() {
@@ -378,17 +402,25 @@ function setupLiveChat() {
                 });
 
                 if (response.ok) {
+                    // Immediately load chat to show the new message
                     await loadChat();
                     chatArea.scrollTop = chatArea.scrollHeight;
+                } else {
+                    const errorData = await response.json();
+                    showToast(errorData.error || "Failed to send message.", 'error');
                 }
-            } catch {
+            } catch (error) {
+                console.error('Chat send error:', error);
                 showToast("Chat connection lost. Message not sent.", 'error');
             }
         }
     });
 
+    // Initial load
     loadChat();
-    setInterval(loadChat, 5000);
+
+    // Poll for new messages every 10 seconds (reduced frequency)
+    setInterval(loadChat, 10000);
 }
 
 // ==========================================

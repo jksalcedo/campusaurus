@@ -56,16 +56,39 @@ def as_non_empty_string(v):
     return v.strip() if isinstance(v, str) and v.strip() else ""
 
 # --- ADDED: Smart User Fallback (Crash Protected) ---
+def ensure_guest_user():
+    """Ensure there is a valid guest user record for anonymous chat posting."""
+    try:
+        guest = User.query.filter_by(username="Student").first()
+        if guest:
+            return guest.id
+
+        guest_email = "student@campusaurus.local"
+        guest = User(
+            username="Student",
+            email=guest_email,
+            password_hash=generate_password_hash("guest-password"),
+        )
+        db.session.add(guest)
+        db.session.commit()
+        return guest.id
+    except Exception as e:
+        print(f"\n⚠️ WARNING: Could not create or load guest user. Error: {e}\n")
+        return None
+
+
 def get_current_user_id():
     """Returns the logged-in user, or safely falls back if not logged in."""
     uid = session.get("user_id")
     if uid:
         return uid
 
-    # Safety Net: If the users table has an issue, this prevents Flask from crashing
     try:
         first_user = User.query.first()
-        return first_user.id if first_user else "student1"
+        if first_user:
+            return first_user.id
+        guest_id = ensure_guest_user()
+        return guest_id or "student1"
     except Exception as e:
         print(f"\n⚠️ WARNING: Could not connect to the Users table. Error: {e}\n")
         return "student1"
