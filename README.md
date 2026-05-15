@@ -120,8 +120,6 @@ To develop a full-stack web application that serves as a centralized campus comm
 
 ### Entity Relationship Diagram (ERD)
 
-> 📎 See: `docs/diagrams/erd.png`
-
 ![ERD](docs/diagrams/erd.png)
 
 **Entities and Relationships:**
@@ -131,10 +129,6 @@ To develop a full-stack web application that serves as a centralized campus comm
 - An **Admin** record (email only) grants elevated privileges to a **User** with a matching email.
 
 ### Relational Model
-
-> 📎 See: `docs/diagrams/rm.png`
-
-![Relational Model](docs/diagrams/rm.png)
 
 | Table | Attributes |
 |-------|-----------|
