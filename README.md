@@ -120,7 +120,7 @@ To develop a full-stack web application that serves as a centralized campus comm
 
 ### Entity Relationship Diagram (ERD)
 
-![ERD](docs/diagrams/erd.png)
+![ERD](docs/diagrams/erd.svg)
 
 **Entities and Relationships:**
 - A **User** can create many **Posts**, **Announcements**, **Comments**, **Nests**, and **ChatMessages**.
